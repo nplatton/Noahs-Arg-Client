@@ -4,13 +4,13 @@ Here we will define what we expect the paths to be for our routes and the format
 
 This initial idea won't account for values recieved as a result of authentication such as JWTs from logging in.
 
-| Action  | HTTP Verb | Path                                  | Use                                    |
-| ------- | --------- | ------------------------------------- | -------------------------------------- |
-| Index   | GET       | "/:org/users/"                        | Making the leaderboard                 |
-| Show    | GET       | "/:org/users/:username/"              | Info for logged in users habit page    |
-| Create  | POST      | "/:org/users/"                         | Create a new user                      |
-| Update  | PATCH/PUT | "/:org/users/:username/habits/"        | Update habit info                      |
-| Destroy | DELETE    | "/:org/users/:username/habits/:habit/" | Delete a habit thats no longer tracked |
+| Action  | HTTP Verb | Path                                                                         | Use |
+| ------- | --------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Index   | GET       | "/:org/users/"                                                               | Making the leaderboard |
+| Show    | GET       | "/:org/users/:username/"                                                     | Info for logged in users habit page |
+| Create  | POST      | "/:org/users/"                                                               | Create a new user |
+| Update  | PATCH/PUT | "/:org/users/:username/habits/" <br/> "/:org/users/:username/habits/:habit/" | Update habit info on weekly selection <br/> Update habit based on daily progress |
+| Destroy | DELETE    | "/:org/users/:username/"                                       | User deletes their account |
 
 ### For any requests that have a body it is defined below:
 
@@ -21,25 +21,46 @@ This initial idea won't account for values recieved as a result of authenticatio
   username: "Person",
   password_digest: "hashed_password",
   org: "organisation",
-  habits: {}
+  habits: {},
+  streaks: {
+    <habit_name>: {
+      highest: 0,
+      current: 0,
+    },
+    <habit_name>: {
+      highest: 0,
+      current: 0,
+    },
+  }
 }
 ```
 
 **Update body**:
+
+There are 2 situations:
+1. When we send off the information about the weekly habit selection in which `daily_count` and `weekly_count` will be 0
 
 ```
 {
   habits: {
     <habit_name>: {
       target_amount: x
+      daily_count: 0,
+      weekly_count: 0,
     }
   }
 }
 ```
 
-Note: By adding a `targeted` boolean to each habit we don't have to worry about differentiating between habits that a user has or hasn't already chosen in the past. However this means storing data when it isnt needed (waste of space)
+2. When we update the daily information on the user's habit page for a specific habit
 
-Note: We can deal with this server side
+```
+{
+  // Empty body - we just increment on the server side
+}
+```
+
+Note: We will deal with `weekly_count` on the server side
 
 ### What we expect to recieve on the client side:
 
@@ -54,8 +75,8 @@ Note: We can deal with this server side
     "habits": {
       "<habit_name>": {
         "target_amount": 5,
-        "dailyCount": 0,
-        "weeklyCount": 12
+        "daily_count": 0,
+        "weekly_count": 12
       }
     },
     "streaks": {
@@ -78,8 +99,8 @@ Note: We can deal with this server side
   "habits": {
     "<habit_name>": {
       "target_amount": 5,
-      "dailyCount": 0,
-      "weeklyCount": 12
+      "daily_count": 0,
+      "weekly_count": 12
     }
   },
   "streaks": {
@@ -109,8 +130,8 @@ We will recieve all the data about the user after the update
   "habits": {
     "<habit_name>": {
       "target_amount": 5,
-      "dailyCount": 0,
-      "weeklyCount": 0
+      "daily_count": 0,
+      "weekly_count": 0
     }
   },
   "streaks": {
