@@ -1,0 +1,145 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #3aafa9;
+}
+
+/* Styling Title */
+
+.titleWrap {
+  min-height: 30vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1em;
+}
+.titleDiv {
+  max-width: fit-content;
+  font-size: clamp(1.5rem, 5vw, 2.75rem);
+  text-align: center;
+  font-family: "Abril Fatface", cursive;
+  font-weight: bold;
+  color: #17252a;
+  line-height: 2.5em;
+  margin-top: 2em;
+  margin-bottom: 0.25em;
+}
+/* Styling Nav Bar */
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: "Libre Baskerville", serif;
+  background-color: #333;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  background-color: #111;
+}
+
+/* Styling Register & Login Forms */
+
+form {
+  max-width: 35vw;
+  margin: 5% auto;
+  font-family: "Libre Baskerville", serif;
+}
+.formWrapper {
+  display: flex;
+}
+.formWrapper1 {
+  border: 5px solid #ccc;
+  border-radius: 25px;
+  background-color: white;
+}
+.formWrapper2 {
+  border: 5px solid #ccc;
+  border-radius: 25px;
+  background-color: white;
+}
+
+/* Full-width input fields */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for all buttons */
+button {
+  background-color: #04aa6d;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+button:hover {
+  opacity: 1;
+}
+
+/* Sing In + Up Styling */
+.signupbtn {
+  width: 60%;
+  border: 5px solid #ccc;
+  border-radius: 25px;
+}
+.signinbtn {
+  width: 60%;
+  border: 5px solid #ccc;
+  border-radius: 25px;
+}
+
+/* Add padding to container elements */
+.container {
+  padding: 25px;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .signupbtn {
+    width: 100%;
+  }
+}
