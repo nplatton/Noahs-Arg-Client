@@ -8,9 +8,9 @@ This initial idea won't account for values recieved as a result of authenticatio
 | ------- | --------- | ------------------------------------- | -------------------------------------- |
 | Index   | GET       | "/:org/users/"                        | Making the leaderboard                 |
 | Show    | GET       | "/:org/users/:username/"              | Info for logged in users habit page    |
-| Create  | POST      | ":org/users/"                         | Create a new user                      |
-| Update  | PATCH/PUT | ":org/users/:username/habits/"        | Update habit info                      |
-| Destroy | DELETE    | ":org/users/:username/habits/:habit/" | Delete a habit thats no longer tracked |
+| Create  | POST      | "/:org/users/"                         | Create a new user                      |
+| Update  | PATCH/PUT | "/:org/users/:username/habits/"        | Update habit info                      |
+| Destroy | DELETE    | "/:org/users/:username/habits/:habit/" | Delete a habit thats no longer tracked |
 
 For any requests that have a body it is defined below:
 
