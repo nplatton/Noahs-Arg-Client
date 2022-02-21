@@ -53,17 +53,17 @@ Index/Show:
 ```JSON
 {
   "1": {
-    username: "Person",
-    password_digest: "hashed_password",
-    org: "organisation",
-    habits: {
-      habit: {
-        target_amount: x,
-        dailyCount: 0,
-        weeklyCount: 12,
-        streak: 1,
-        recentStreak: 4,
-        highestStreak: 6,
+    "username": "Person",
+    "password_digest": "hashed_password",
+    "org": "organisation",
+    "habits": {
+      "habit": {
+        "target_amount": 5,
+        "dailyCount": 0,
+        "weeklyCount": 12,
+        "streak": 1,
+        "recentStreak": 4,
+        "highestStreak": 6,
       }
     }
   }
@@ -83,17 +83,17 @@ We will recieve all the data about the user after the update
 ```JSON
 {
   "1": {
-    username: "Person",
-    password_digest: "hashed_password",
-    org: "organisation",
-    habits: {
-      habit: {
-        target_amount: x,
-        dailyCount: 0,
-        weeklyCount: 12,
-        streak: 1,
-        recentStreak: 4,
-        highestStreak: 6,
+    "username": "Person",
+    "password_digest": "hashed_password",
+    "org": "organisation",
+    "habits": {
+      "habit": {
+        "target_amount": 5,
+        "dailyCount": 0,
+        "weeklyCount": 0,
+        "streak": 0,
+        "recentStreak": 4,
+        "highestStreak": 6,
       }
     }
   }
