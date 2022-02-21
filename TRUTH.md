@@ -4,13 +4,13 @@ Here we will define what we expect the paths to be for our routes and the format
 
 This initial idea won't account for values recieved as a result of authentication such as JWTs from logging in.
 
-| Action  | HTTP Verb | Path                                  | Use                                    |
-| ------- | --------- | ------------------------------------- | -------------------------------------- |
-| Index   | GET       | "/:org/users/"                        | Making the leaderboard                 |
-| Show    | GET       | "/:org/users/:username/"              | Info for logged in users habit page    |
-| Create  | POST      | ":org/users/"                         | Create a new user                      |
-| Update  | PATCH/PUT | ":org/users/:username/habits/"        | Update habit info                      |
-| Destroy | DELETE    | ":org/users/:username/habits/:habit/" | Delete a habit thats no longer tracked |
+| Action  | HTTP Verb | Path                                                                         | Use                                                                              |
+| ------- | --------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| Index   | GET       | "/:org/users/"                                                               | Making the leaderboard                                                           |
+| Show    | GET       | "/:org/users/:username/"                                                     | Info for logged in users habit page                                              |
+| Create  | POST      | "/:org/users/"                                                               | Create a new user                                                                |
+| Update  | PATCH/PUT | "/:org/users/:username/habits/" <br/> "/:org/users/:username/habits/:habit/" | Update habit info on weekly selection <br/> Update habit based on daily progress |
+| Destroy | DELETE    | "/:org/users/:username/habits/:habit/"                                       | Delete a habit thats no longer tracked                                           |
 
 For any requests that have a body it is defined below:
 
