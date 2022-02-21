@@ -12,9 +12,9 @@ This initial idea won't account for values recieved as a result of authenticatio
 | Update  | PATCH/PUT | "/:org/users/:username/habits/"        | Update habit info                      |
 | Destroy | DELETE    | "/:org/users/:username/habits/:habit/" | Delete a habit thats no longer tracked |
 
-For any requests that have a body it is defined below:
+### For any requests that have a body it is defined below:
 
-Create body:
+**Create body**:
 
 ```
 {
@@ -25,18 +25,13 @@ Create body:
 }
 ```
 
-Update body:
+**Update body**:
 
 ```
 {
   habits: {
-    habit: {
-      target_amount: x,
-      dailyCount: 0,
-      weeklyCount: 12,
-      streak: 1,
-      recentStreak: 4,
-      highestStreak: 6,
+    <habit_name>: {
+      target_amount: x
     }
   }
 }
@@ -46,9 +41,9 @@ Note: By adding a `targeted` boolean to each habit we don't have to worry about 
 
 Note: We can deal with this server side
 
-What we expect to recieve on the client side:
+### What we expect to recieve on the client side:
 
-Index/Show:
+**Index**:
 
 ```JSON
 {
@@ -57,44 +52,71 @@ Index/Show:
     "password_digest": "hashed_password",
     "org": "organisation",
     "habits": {
-      "habit": {
+      "<habit_name>": {
         "target_amount": 5,
         "dailyCount": 0,
-        "weeklyCount": 12,
-        "streak": 1,
-        "recentStreak": 4,
-        "highestStreak": 6,
+        "weeklyCount": 12
+      }
+    },
+    "streaks": {
+      "<habit_name>": {
+        "highest": 6,
+        "current": 0
       }
     }
   }
 }
 ```
 
-Create:
+**Show**:
+
+```JSON
+{
+  "username": "Person",
+  "password_digest": "hashed_password",
+  "org": "organisation",
+  "habits": {
+    "<habit_name>": {
+      "target_amount": 5,
+      "dailyCount": 0,
+      "weeklyCount": 12
+    }
+  },
+  "streaks": {
+    "<habit_name>": {
+      "highest": 6,
+      "current": 0
+    }
+  }
+}
+```
+
+**Create**:
 
 ```JSON
 
 ```
 
-Update:
+**Update**:
 
 We will recieve all the data about the user after the update
 
 ```JSON
 {
-  "1": {
-    "username": "Person",
-    "password_digest": "hashed_password",
-    "org": "organisation",
-    "habits": {
-      "habit": {
-        "target_amount": 5,
-        "dailyCount": 0,
-        "weeklyCount": 0,
-        "streak": 0,
-        "recentStreak": 4,
-        "highestStreak": 6,
-      }
+  "username": "Person",
+  "password_digest": "hashed_password",
+  "org": "organisation",
+  "habits": {
+    "<habit_name>": {
+      "target_amount": 5,
+      "dailyCount": 0,
+      "weeklyCount": 0
+    }
+  },
+  "streaks": {
+    "<habit_name>": {
+      "highest": 6,
+      "current": 0
     }
   }
 }
