@@ -28,3 +28,5 @@ function slider(x0, x1) {
     document.documentElement.style.setProperty("--i", 0);
   }
 }
+
+require("./js/auth");

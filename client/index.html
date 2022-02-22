@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Libre+Baskerville&display=swap" rel="stylesheet">
-
+    <script defer src="bundle.js"></script>
     <title>Better Work</title>
   </head>
   <body>
@@ -30,20 +30,21 @@
     </nav>
 
     <div class="formWrapper">
-      <form action="action_page.php" class="formWrapper1">
+      <form id="register-form" action="submit" class="formWrapper1">
         <div class="container">
           <h2>Sign Up</h2>
           <p>Please fill in this form to create an account.</p>
           <hr />
 
           <label for="username"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="username" required />
+          <input type="text" placeholder="Enter Username" name="username" id="username" required />
 
           <label for="psw"><b>Password</b></label>
           <input
             type="password"
             placeholder="Enter Password"
             name="psw"
+            id="password"
             required
           />
 
@@ -61,7 +62,7 @@
         </div>
       </form>
 
-      <form action="action_page.php" class="formWrapper2">
+      <form id="login-form" action="submit" class="formWrapper2">
         <div class="container">
           <h2>Sign In</h2>
           <p>Please fill in this form to sign into your account.</p>
