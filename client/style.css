@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --i: 0;
+  --drag: 0px;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -142,4 +147,87 @@ button:hover {
   .signupbtn {
     width: 100%;
   }
+}
+
+/* --------------------------- Org Page ------------------------------- */
+
+#org-main {
+  margin-top: 100px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#leaderboard-container {
+  position: relative;
+  overflow: hidden;
+  width: 30%;
+  height: 70vh;
+  background-color: rgb(187, 186, 186);
+  border-radius: 20px;
+  border: #3aafa988 solid 10px;
+}
+
+#inner-container {
+  width: 200%;
+  height: 100%;
+  display: flex;
+  overflow-y: hidden;
+  transform: translate(calc(var(--i) / 2 * -100% + var(--drag)));
+  transition: transform 2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+}
+
+#Item1 {
+  background-color: aqua;
+  width: 50%;
+  pointer-events: none;
+}
+
+#leaderboard {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  background-color: papayawhip;
+  width: 50%;
+  pointer-events: none;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+#aside {
+  height: 70vh;
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#above {
+  width: 100%;
+  height: 20vh;
+  background-color: rgb(187, 186, 186);
+  border-radius: 20px;
+  border: #3aafa988 solid 10px;
+}
+
+#user-card {
+  width: 100%;
+  height: 40vh;
+  background-color: rgb(187, 186, 186);
+  border-radius: 20px;
+  border: #3aafa988 solid 10px;
+}
+
+.leaderboard-bar {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 80%;
+  height: 10%;
+  border-radius: 10px;
+  background-color: rgb(187, 186, 186);
 }

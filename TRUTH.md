@@ -4,13 +4,13 @@ Here we will define what we expect the paths to be for our routes and the format
 
 This initial idea won't account for values recieved as a result of authentication such as JWTs from logging in.
 
-| Action  | HTTP Verb | Path                                                                         | Use |
+| Action  | HTTP Verb | Path                                                                         | Use                                                                              |
 | ------- | --------- | ---------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| Index   | GET       | "/:org/users/"                                                               | Making the leaderboard |
-| Show    | GET       | "/:org/users/:username/"                                                     | Info for logged in users habit page |
-| Create  | POST      | "/:org/users/"                                                               | Create a new user |
+| Index   | GET       | "/:org/users/"                                                               | Making the leaderboard                                                           |
+| Show    | GET       | "/:org/users/:username/"                                                     | Info for logged in users habit page                                              |
+| Create  | POST      | "/:org/users/"                                                               | Create a new user                                                                |
 | Update  | PATCH/PUT | "/:org/users/:username/habits/" <br/> "/:org/users/:username/habits/:habit/" | Update habit info on weekly selection <br/> Update habit based on daily progress |
-| Destroy | DELETE    | "/:org/users/:username/"                                       | User deletes their account |
+| Destroy | DELETE    | "/:org/users/:username/"                                                     | User deletes their account                                                       |
 
 ### For any requests that have a body it is defined below:
 
@@ -38,6 +38,7 @@ This initial idea won't account for values recieved as a result of authenticatio
 **Update body**:
 
 There are 2 situations:
+
 1. When we send off the information about the weekly habit selection in which `daily_count` and `weekly_count` will be 0
 
 ```
