@@ -1,19 +1,24 @@
 function populateLeaderboards(data) {
   // First we want to comput everybody's ranks
+  const sortedArray = rankUsers(data);
+  const ranks = {};
+  for (const user of data) {
+    ranks[`${user.username}`] = getRank(user.username, sortedArray);
+  }
 
   const leaderboard = document.querySelector("#leaderboard");
   data.forEach((user) => {
-    leaderboard.appendChild(addUser(user));
+    leaderboard.appendChild(addUser(user, ranks));
   });
 }
 
-function addUser(userData) {
+function addUser(userData, ranks) {
   const userBar = document.createElement("div");
   userBar.classList.add("leaderboard-bar");
 
   const rank = document.createElement("div");
   rank.classList.add("rank-circle");
-  // const userRank = rankedList.indexOf(username)
+  const userRank = ranks[`${userData.username}`];
   rank.textContent = userRank;
 
   const points = document.createElement("div");
@@ -27,14 +32,19 @@ function addUser(userData) {
   usernameSctn.textContent = username;
 
   userBar.appendChild(rank);
-  userBar.appendChild(username);
+  userBar.appendChild(usernameSctn);
   userBar.appendChild(points);
 
   return userBar;
 }
 
-function getRank(username) {
+function getRank(username, sortedArray) {
   // Get actual rank from output of rankUsers()
+  for (const item of sortedArray) {
+    if (item.split(":")[0] == username) {
+      return sortedArray.length - sortedArray.indexOf(item);
+    }
+  }
 }
 
 function rankUsers(users) {
@@ -42,19 +52,43 @@ function rankUsers(users) {
   for (const user of users) {
     arr.push(`${user.username}: ${computePoints(user)}`);
   }
-  // Now we need to sort the array
+  const sortedArray = reorder(arr);
+  return sortedArray;
 }
 
 function computePoints(userData) {
-  const habits = userData.habits;
-  const points = 0;
+  const habits = userData.tracked_habits;
+  let points = 0;
   for (const habit in habits) {
-    points += habit.weekly_count;
+    points += parseInt(habits[`${habit}`].weekly_count);
   }
   return points;
 }
 
-function reorder(arr) {}
+function reorder(arr) {
+  let sortedArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (i == 0) {
+      sortedArr.push(arr[i]);
+    } else {
+      for (let j = 0; j < sortedArr.length; j++) {
+        if (
+          parseInt(arr[i].split(" ")[1]) < parseInt(sortedArr[j].split(" ")[1])
+        ) {
+          sortedArr = sortedArr.splice(j, 0, arr[i]);
+          break;
+        } else if (
+          j == sortedArr.length - 1 &&
+          parseInt(arr[i].split(" ")[1]) >= parseInt(sortedArr[j].split(" ")[1])
+        ) {
+          sortedArr.push(arr[i]);
+          break;
+        }
+      }
+    }
+  }
+  return sortedArr;
+}
 
 module.exports = {
   populateLeaderboards,

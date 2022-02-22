@@ -8,6 +8,17 @@ const registerForm = document.querySelector("#register-form");
 loginForm && loginForm.addEventListener("submit", requestLogin);
 registerForm && registerForm.addEventListener("submit", requestRegistration);
 
+// If the user is logged in, don't show login forms when returning to homepage
+if (
+  window.location.pathname == "/index.html" &&
+  !!localStorage.getItem("username")
+) {
+  const formContainer = document.querySelector("#home-form-container");
+  formContainer.innerHTML = "";
+} else if (window.location.pathname == "/org.html") {
+  handlers.getOrgUsers();
+}
+
 // ---------------- ORG PAGE -----------------------
 
 const container = document.querySelector("#inner-container");
@@ -35,13 +46,9 @@ container &&
 
 function slider(x0, x1) {
   const i = getComputedStyle(document.documentElement).getPropertyValue("--i");
-  console.log(i);
   if (i == 0 && x0 >= x1) {
     document.documentElement.style.setProperty("--i", 1);
   } else if (i == 1 && x1 > x0) {
     document.documentElement.style.setProperty("--i", 0);
   }
 }
-
-const main = document.querySelector("#org-main");
-main && main.addEventListener("click", handlers.updateHabitSelection);

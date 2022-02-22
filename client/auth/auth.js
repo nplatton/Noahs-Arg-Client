@@ -1,6 +1,8 @@
 const jwt_decode = require("jwt-decode");
 const API_URL = "http://localhost:3000";
 
+const { incorrectPassword } = require("./authHelpers.js");
+
 async function requestLogin(e) {
   e.preventDefault();
 
@@ -19,6 +21,7 @@ async function requestLogin(e) {
     const r = await fetch(`${API_URL}/auth/login`, options);
     const response = await r.json();
     if (!response.success) {
+      incorrectPassword();
       throw new Error("Login not authorised");
     }
     login(response.token);

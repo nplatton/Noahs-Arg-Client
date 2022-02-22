@@ -2,8 +2,8 @@ const { populateLeaderboards } = require("./orgHelpers");
 
 const url = "http://localhost:3000";
 
-async function getOrgUsers(e) {
-  e.preventDefault();
+async function getOrgUsers() {
+  // e.preventDefault();
   try {
     const org = localStorage.getItem("org");
 
@@ -18,7 +18,6 @@ async function getOrgUsers(e) {
       await fetch(`${url}/users/org/${org}`, options)
     ).json();
 
-    console.log(response);
     populateLeaderboards(response);
   } catch (err) {
     console.warn(err);
@@ -48,37 +47,37 @@ async function getUser(e) {
   }
 }
 
-async function updateHabitSelection(e) {
-  e.preventDefault();
-  try {
-    const username = localStorage.getItem("username");
+// async function updateHabitSelection(e) {
+//   e.preventDefault();
+//   try {
+//     const username = localStorage.getItem("username");
 
-    const data = {};
-    for (const habit of e.target) {
-      data[`${habit}`] = {
-        target_amount: e.target[`${habit}`].value,
-        daily_count: 0,
-        weekly_count: 0,
-      };
-    }
+//     const data = {};
+//     for (const habit of e.target) {
+//       data[`${habit}`] = {
+//         target_amount: e.target[`${habit}`].value,
+//         daily_count: 0,
+//         weekly_count: 0,
+//       };
+//     }
 
-    const options = {
-      method: "PATCH",
-      headers: new Headers({
-        authorization: localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify(data),
-    };
+//     const options = {
+//       method: "PATCH",
+//       headers: new Headers({
+//         authorization: localStorage.getItem("token"),
+//         "Content-Type": "application/json",
+//       }),
+//       body: JSON.stringify(data),
+//     };
 
-    const reponse = await (
-      await fetch(`${url}/users/${username}/habits`, options)
-    ).json();
-    console.log(response);
-  } catch (err) {
-    console.warn(err);
-  }
-}
+//     const reponse = await (
+//       await fetch(`${url}/users/${username}/habits`, options)
+//     ).json();
+//     console.log(response);
+//   } catch (err) {
+//     console.warn(err);
+//   }
+// }
 
 async function incrementHabit(e) {
   e.preventDefault();
@@ -125,7 +124,7 @@ async function incrementHabit(e) {
 module.exports = {
   getOrgUsers,
   getUser,
-  updateHabitSelection,
+  // updateHabitSelection,
   incrementHabit,
   // deleteHabits,
 };
