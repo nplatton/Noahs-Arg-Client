@@ -11,7 +11,6 @@ async function requestLogin(e) {
     const data = {
       username: e.target.username.value,
       password: e.target.psw.value,
-      // org: e.target.value.org
     };
     console.log(data);
     const options = {
