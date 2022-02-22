@@ -1,7 +1,7 @@
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
-const loginForm = document.getElementById("login-form");
-const registerForm = document.getElementById("register-form");
+const loginForm = document.querySelector("#login-form");
+const registerForm = document.querySelector("#register-form");
 
 loginForm.addEventListener("submit", requestLogin);
 registerForm.addEventListener("submit", requestRegistration);

@@ -21,11 +21,11 @@ async function requestLogin(e) {
     };
 
     const r = await fetch(`${API_URL}/auth/login`, options);
-    const data = await r.json();
-    if (!data.success) {
+    const response = await r.json();
+    if (!response.success) {
       throw new Error("Login not authorised");
     }
-    login(data.token);
+    login(response.token);
   } catch (err) {
     console.warn(err);
   }
