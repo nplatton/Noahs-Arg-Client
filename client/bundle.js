@@ -59,7 +59,7 @@ function login(token) {
   document.getElementById("register-form").style.display = "none";
   document.getElementById("login-form").style.display = "none";
 
-  // window.location.replace("personal.html");
+  window.location.replace("personal.html");
 }
 
 function logout() {
