@@ -7,17 +7,13 @@ async function requestLogin(e) {
 
   try {
     console.log(e.target);
-    // let formData = new FormData(e.target);
     const data = {
       username: e.target.username.value,
       password: e.target.psw.value,
-      // org: e.target.value.org
     };
-    console.log(data);
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify(Object.fromEntries(formData)),
       body: JSON.stringify(data),
     };
 
@@ -35,16 +31,21 @@ async function requestLogin(e) {
 async function requestRegistration(e) {
   e.preventDefault();
   try {
-    let formData = new FormData(e.target);
+    const data = {
+      username: e.target.username.value,
+      password: e.target.psw.value,
+      org: e.target.org.value,
+    };
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.fromEntries(formData)),
+      body: JSON.stringify(data),
     };
-    const r = await fetch(`${API_URL}/auth/register`, options);
-    const data = await r.json();
-    if (data.err) {
-      throw Error(data.err);
+    const response = await (
+      await fetch(`${API_URL}/auth/register`, options)
+    ).json();
+    if (response.err) {
+      throw Error(response.err);
     }
     requestLogin(e);
   } catch (err) {
@@ -56,11 +57,12 @@ function login(token) {
   const user = jwt_decode(token);
   localStorage.setItem("token", token);
   localStorage.setItem("username", user.username);
+  localStorage.setItem("org", user.org);
 
   document.getElementById("register-form").style.display = "none";
   document.getElementById("login-form").style.display = "none";
 
-  window.location.replace("personal.html");
+  // window.location.replace("personal.html");
 }
 
 function logout() {
@@ -84,11 +86,13 @@ module.exports = {
 },{"jwt-decode":3}],2:[function(require,module,exports){
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
+const handlers = require("./src/js/handlers");
+
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
 
-loginForm.addEventListener("submit", requestLogin);
-registerForm.addEventListener("submit", requestRegistration);
+loginForm && loginForm.addEventListener("submit", requestLogin);
+registerForm && registerForm.addEventListener("submit", requestRegistration);
 
 // ---------------- ORG PAGE -----------------------
 
@@ -125,8 +129,207 @@ function slider(x0, x1) {
   }
 }
 
-},{"./auth/auth":1}],3:[function(require,module,exports){
+const main = document.querySelector("#org-main");
+main && main.addEventListener("click", handlers.updateHabitSelection);
+
+},{"./auth/auth":1,"./src/js/handlers":4}],3:[function(require,module,exports){
 "use strict";function e(e){this.message=e}e.prototype=new Error,e.prototype.name="InvalidCharacterError";var r="undefined"!=typeof window&&window.atob&&window.atob.bind(window)||function(r){var t=String(r).replace(/=+$/,"");if(t.length%4==1)throw new e("'atob' failed: The string to be decoded is not correctly encoded.");for(var n,o,a=0,i=0,c="";o=t.charAt(i++);~o&&(n=a%4?64*n+o:o,a++%4)?c+=String.fromCharCode(255&n>>(-2*a&6)):0)o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".indexOf(o);return c};function t(e){var t=e.replace(/-/g,"+").replace(/_/g,"/");switch(t.length%4){case 0:break;case 2:t+="==";break;case 3:t+="=";break;default:throw"Illegal base64url string!"}try{return function(e){return decodeURIComponent(r(e).replace(/(.)/g,(function(e,r){var t=r.charCodeAt(0).toString(16).toUpperCase();return t.length<2&&(t="0"+t),"%"+t})))}(t)}catch(e){return r(t)}}function n(e){this.message=e}function o(e,r){if("string"!=typeof e)throw new n("Invalid token specified");var o=!0===(r=r||{}).header?0:1;try{return JSON.parse(t(e.split(".")[o]))}catch(e){throw new n("Invalid token specified: "+e.message)}}n.prototype=new Error,n.prototype.name="InvalidTokenError";const a=o;a.default=o,a.InvalidTokenError=n,module.exports=a;
 
+
+},{}],4:[function(require,module,exports){
+const { populateLeaderboards } = require("./orgHelpers");
+
+const url = "http://localhost:3000";
+
+async function getOrgUsers(e) {
+  e.preventDefault();
+  try {
+    const org = localStorage.getItem("org");
+
+    const options = {
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
+
+    const response = await (
+      await fetch(`${url}/users/org/${org}`, options)
+    ).json();
+
+    console.log(response);
+    populateLeaderboards(response);
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+async function getUser(e) {
+  e.preventDefault();
+  try {
+    const username = localStorage.getItem("username");
+
+    const options = {
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
+
+    const response = await (
+      await fetch(`${url}/users/${username}`, options)
+    ).json();
+
+    console.log(response);
+    // Use response to populate the habits page
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+async function updateHabitSelection(e) {
+  e.preventDefault();
+  try {
+    const username = localStorage.getItem("username");
+
+    const data = {};
+    for (const habit of e.target) {
+      data[`${habit}`] = {
+        target_amount: e.target[`${habit}`].value,
+        daily_count: 0,
+        weekly_count: 0,
+      };
+    }
+
+    const options = {
+      method: "PATCH",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify(data),
+    };
+
+    const reponse = await (
+      await fetch(`${url}/users/${username}/habits`, options)
+    ).json();
+    console.log(response);
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+async function incrementHabit(e) {
+  e.preventDefault();
+  try {
+    const username = localStorage("username");
+    const habit = e.target.id;
+
+    const options = {
+      method: "PATCH",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
+
+    const response = await (
+      await fetch(`${url}/users/${username}/habits/${habit}`)
+    ).json();
+
+    console.log(response);
+  } catch (err) {
+    console.warn(err);
+  }
+}
+
+// async function deleteHabits(e) {
+//   e.preventDefault();
+//   try {
+//     const username = localStorage.getItem("username");
+
+//     const options = {
+//       method: "DELETE",
+//     };
+
+//     const response = await (
+//       await fetch(`${url}/users/${username}/habits`, options)
+//     ).json();
+//     console.log(response);
+//   } catch (err) {
+//     console.warn(err);
+//   }
+// }
+
+module.exports = {
+  getOrgUsers,
+  getUser,
+  updateHabitSelection,
+  incrementHabit,
+  // deleteHabits,
+};
+
+},{"./orgHelpers":5}],5:[function(require,module,exports){
+function populateLeaderboards(data) {
+  // First we want to comput everybody's ranks
+
+  const leaderboard = document.querySelector("#leaderboard");
+  data.forEach((user) => {
+    leaderboard.appendChild(addUser(user));
+  });
+}
+
+function addUser(userData) {
+  const userBar = document.createElement("div");
+  userBar.classList.add("leaderboard-bar");
+
+  const rank = document.createElement("div");
+  rank.classList.add("rank-circle");
+  // const userRank = rankedList.indexOf(username)
+  rank.textContent = userRank;
+
+  const points = document.createElement("div");
+  points.classList.add("points-circle");
+  const userPoints = computePoints(userData);
+  points.textContent = userPoints;
+
+  const usernameSctn = document.createElement("div");
+  usernameSctn.classList.add("username-sctn");
+  const username = userData.username;
+  usernameSctn.textContent = username;
+
+  userBar.appendChild(rank);
+  userBar.appendChild(username);
+  userBar.appendChild(points);
+
+  return userBar;
+}
+
+function getRank(username) {
+  // Get actual rank from output of rankUsers()
+}
+
+function rankUsers(users) {
+  let arr = [];
+  for (const user of users) {
+    arr.push(`${user.username}: ${computePoints(user)}`);
+  }
+  // Now we need to sort the array
+}
+
+function computePoints(userData) {
+  const habits = userData.habits;
+  const points = 0;
+  for (const habit in habits) {
+    points += habit.weekly_count;
+  }
+  return points;
+}
+
+function reorder(arr) {}
+
+module.exports = {
+  populateLeaderboards,
+};
 
 },{}]},{},[2]);
