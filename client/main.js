@@ -1,10 +1,12 @@
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
+const handlers = require("./src/js/handlers");
+
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
 
-loginForm.addEventListener("submit", requestLogin);
-registerForm.addEventListener("submit", requestRegistration);
+loginForm && loginForm.addEventListener("submit", requestLogin);
+registerForm && registerForm.addEventListener("submit", requestRegistration);
 
 // ---------------- ORG PAGE -----------------------
 
@@ -40,3 +42,6 @@ function slider(x0, x1) {
     document.documentElement.style.setProperty("--i", 0);
   }
 }
+
+const main = document.querySelector("#org-main");
+main && main.addEventListener("click", handlers.updateHabitSelection);
