@@ -53,3 +53,6 @@ function slider(x0, x1) {
     document.documentElement.style.setProperty("--i", 0);
   }
 }
+
+const main = document.querySelector("h1");
+main.addEventListener("click", getUser);
