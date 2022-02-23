@@ -122,7 +122,6 @@ module.exports = {
 
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 
-
 function checkHabits() {
   if ((getHabits = {})) {
     getHabitForm();
@@ -131,36 +130,28 @@ function checkHabits() {
   }
 }
 
-// Create Choose Habits Form Function, must include habit checkboxes and submit to database.
+// Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
-function createHabitForm(data) {}
-
-// Generate Habit Form Title
+// Generate Habit Form Title for Already made habits- Welcomes User
 const generateTitle = () => {
   const formDiv = document.createElement("div");
   // formDiv.classList.add("habit_form", "title_habit");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Please Select Three Habits";
+  titleLabel.innerText = "Welcome User"; // Get user's name
   formDiv.appendChild(titleLabel);
 
   return formDiv;
 };
 
-// Generate Habit Form Title
+// Generates the users habits
 
-function generateStreak(data){
- console.log(data);
-}
-
-function generateHabits(data){
-
+function generateHabits(data) {
   const habitDiv = document.createElement("div");
   // habitDiv.classList.add("habit_form", "title_habit");
 
   for (const habit in data.tracked_habits) {
-
     const habitLabel = document.createElement("label");
     habitLabel.for = habit;
     habitLabel.innerText = habit;
@@ -170,11 +161,35 @@ function generateHabits(data){
     habitDiv.appendChild(habitLabel);
     habitDiv.appendChild(habitCheck);
 
-    
+    const habitGoal = document.createElement("label");
+    habitGoal.innerText =
+      "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
+    habitDiv.appendChild(habitGoal);
+    // const weekDaysss = document.createElement("ul")
+    const weekdays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    weekdays.forEach((day) => {
+      const dayLabel = document.createElement("label");
+      dayLabel.innerText = day;
+      const dayCheck = document.createElement("input");
+      dayCheck.type = "checkbox";
+      habitDiv.appendChild(dayLabel);
+      habitDiv.appendChild(dayCheck);
+    });
   }
 
   return habitDiv;
-};
+}
+// function generateStreak(data) {
+//   const habitDiv = console.log(data);
+// }
 
 function generateHabitForm(data) {
   const habitData = generateHabits(data);
@@ -188,29 +203,15 @@ function generateHabitForm(data) {
   submit.id = "create_btn";
   // add class list for styling
 
-  //form.appendChild(generateTitle());
+  form.appendChild(generateTitle());
   form.appendChild(habitData);
   form.appendChild(submit);
 
   wrapper.prepend(form);
-};
+}
 
-// Create Habits form, must include 3 Habits, checkboxes, current score, goal.
+module.exports = { generateTitle, generateHabits, generateHabitForm };
 
-function showHabits() {}
-
-// Create form elements:
-
-// Convert checkbox value into json
-
-// Show Form When Button is Clicked
-
-const showForm = () => {
-  generateForm();
-  document.querySelector(".add_div");
-};
-
-module.exports= {generateTitle, generateHabits, generateHabitForm};
 },{}],4:[function(require,module,exports){
 const {
   generateTitle,
@@ -275,12 +276,88 @@ function slider(x0, x1) {
 const main = document.getElementById("test_button");
 main && main.addEventListener("click", handlers.getUser);
 
-},{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":6}],5:[function(require,module,exports){
+
+},{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":7}],5:[function(require,module,exports){
 "use strict";function e(e){this.message=e}e.prototype=new Error,e.prototype.name="InvalidCharacterError";var r="undefined"!=typeof window&&window.atob&&window.atob.bind(window)||function(r){var t=String(r).replace(/=+$/,"");if(t.length%4==1)throw new e("'atob' failed: The string to be decoded is not correctly encoded.");for(var n,o,a=0,i=0,c="";o=t.charAt(i++);~o&&(n=a%4?64*n+o:o,a++%4)?c+=String.fromCharCode(255&n>>(-2*a&6)):0)o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".indexOf(o);return c};function t(e){var t=e.replace(/-/g,"+").replace(/_/g,"/");switch(t.length%4){case 0:break;case 2:t+="==";break;case 3:t+="=";break;default:throw"Illegal base64url string!"}try{return function(e){return decodeURIComponent(r(e).replace(/(.)/g,(function(e,r){var t=r.charCodeAt(0).toString(16).toUpperCase();return t.length<2&&(t="0"+t),"%"+t})))}(t)}catch(e){return r(t)}}function n(e){this.message=e}function o(e,r){if("string"!=typeof e)throw new n("Invalid token specified");var o=!0===(r=r||{}).header?0:1;try{return JSON.parse(t(e.split(".")[o]))}catch(e){throw new n("Invalid token specified: "+e.message)}}n.prototype=new Error,n.prototype.name="InvalidTokenError";const a=o;a.default=o,a.InvalidTokenError=n,module.exports=a;
 
 
 },{}],6:[function(require,module,exports){
+// Create Choose Habits Form Function, must include habit checkboxes and submit to database.
+
+const generateSelectTitle = () => {
+  const habitSDiv = document.createElement("div");
+  // formDiv.classList.add("habit_form", "title_habit");
+
+  const titleLabel = document.createElement("label");
+  titleLabel.for = "habit";
+  titleLabel.innerText = "Please Choose Your Habits"; // Get user's name
+  habitSDiv.appendChild(titleLabel);
+
+  return habitSDiv;
+};
+
+function generateSelector() {
+  const habitDiv = document.createElement("div");
+  // drink more water
+  const waterLabel = document.createElement("label");
+  waterLabel.innerText = "drink_water";
+
+  const waterCheck = document.createElement("input");
+  waterCheck.type = "checkbox";
+
+  habitDiv.appendChild(waterLabel);
+  habitDiv.appendChild(waterCheck);
+  // take breaks
+  const breakLabel = document.createElement("label");
+  breakLabel.innerText = "break_from_screen";
+
+  const breakCheck = document.createElement("input");
+  breakCheck.type = "checkbox";
+
+  habitDiv.appendChild(breakLabel);
+  habitDiv.appendChild(breakCheck);
+
+  // stretch
+  const stretchLabel = document.createElement("label");
+  stretchLabel.innerText = "stretch";
+
+  const stretchCheck = document.createElement("input");
+  stretchCheck.type = "checkbox";
+
+  habitDiv.appendChild(stretchLabel);
+  habitDiv.appendChild(stretchCheck);
+
+  return habitDiv;
+}
+
+function generateSelectorForm() {
+  const habitData = generateSelector();
+  let wrapper = document.querySelector(".wrapper");
+  const form = document.createElement("form");
+  // add class list for styling
+
+  const submit = document.createElement("input");
+  submit.type = "submit";
+  submit.value = "Create Habits";
+  submit.id = "create_btn";
+  // add class list for styling
+
+  form.appendChild(generateSelectTitle());
+  form.appendChild(habitData);
+  form.appendChild(submit);
+
+  wrapper.prepend(form);
+}
+
+module.exports = {
+  generateSelectTitle,
+  generateSelector,
+  generateSelectorForm,
+};
+
+},{}],7:[function(require,module,exports){
 const habitForm = require("../../habitForm");
+const habitSelect = require("../../selectHabits");
 const { populateLeaderboards } = require("./orgHelpers");
 
 const url = "http://localhost:3000";
@@ -325,9 +402,9 @@ async function getUser(e) {
     ).json();
 
     console.log(response);
-    //habitForm.generateHabits(response);
+
     habitForm.generateHabitForm(response);
-    //habitForm.generateStreak(response);
+    // habitSelect.generateSelectorForm(response);
 
     console.log(response);
     // Use response to populate the habits page
@@ -419,7 +496,7 @@ module.exports = {
   // deleteHabits,
 };
 
-},{"../../habitForm":3,"./orgHelpers":7}],7:[function(require,module,exports){
+},{"../../habitForm":3,"../../selectHabits":6,"./orgHelpers":8}],8:[function(require,module,exports){
 function populateLeaderboards(data) {
   // First we want to comput everybody's ranks
   const sortedArray = rankUsers(data);

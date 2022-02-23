@@ -1,4 +1,5 @@
 const habitForm = require("../../habitForm");
+const habitSelect = require("../../selectHabits");
 const { populateLeaderboards } = require("./orgHelpers");
 
 const url = "http://localhost:3000";
@@ -43,9 +44,9 @@ async function getUser(e) {
     ).json();
 
     console.log(response);
-    //habitForm.generateHabits(response);
+
     habitForm.generateHabitForm(response);
-    //habitForm.generateStreak(response);
+    // habitSelect.generateSelectorForm(response);
 
     console.log(response);
     // Use response to populate the habits page
