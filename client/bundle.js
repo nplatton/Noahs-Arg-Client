@@ -26,6 +26,7 @@ async function requestLogin(e) {
       throw new Error("Login not authorised");
     }
     login(response.token);
+    checkLastVisited();
   } catch (err) {
     console.warn(err);
   }
@@ -76,6 +77,24 @@ function logout() {
 function currentUser() {
   const username = localStorage.getItem("username");
   return username;
+}
+
+async function checkLastVisited() {
+  try {
+    const username = localStorage.getItem("username");
+
+    const options = {
+      method: "DELETE",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
+
+    await fetch(`${API_URL}/users/${username}/habits`, options);
+  } catch (err) {
+    console.warn(err);
+  }
 }
 
 module.exports = {
@@ -193,7 +212,11 @@ const showForm = () => {
 
 module.exports= {generateTitle, generateHabits, generateHabitForm};
 },{}],4:[function(require,module,exports){
-const { generateTitle, generateHabits, generateHabitForm } = require("./habitForm");
+const {
+  generateTitle,
+  generateHabits,
+  generateHabitForm,
+} = require("./habitForm");
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
 const handlers = require("./src/js/handlers");
@@ -249,12 +272,8 @@ function slider(x0, x1) {
   }
 }
 
-
 const main = document.getElementById("test_button");
-main.addEventListener("click", handlers.getUser)
-
-
-
+main && main.addEventListener("click", handlers.getUser);
 
 },{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":6}],5:[function(require,module,exports){
 "use strict";function e(e){this.message=e}e.prototype=new Error,e.prototype.name="InvalidCharacterError";var r="undefined"!=typeof window&&window.atob&&window.atob.bind(window)||function(r){var t=String(r).replace(/=+$/,"");if(t.length%4==1)throw new e("'atob' failed: The string to be decoded is not correctly encoded.");for(var n,o,a=0,i=0,c="";o=t.charAt(i++);~o&&(n=a%4?64*n+o:o,a++%4)?c+=String.fromCharCode(255&n>>(-2*a&6)):0)o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".indexOf(o);return c};function t(e){var t=e.replace(/-/g,"+").replace(/_/g,"/");switch(t.length%4){case 0:break;case 2:t+="==";break;case 3:t+="=";break;default:throw"Illegal base64url string!"}try{return function(e){return decodeURIComponent(r(e).replace(/(.)/g,(function(e,r){var t=r.charCodeAt(0).toString(16).toUpperCase();return t.length<2&&(t="0"+t),"%"+t})))}(t)}catch(e){return r(t)}}function n(e){this.message=e}function o(e,r){if("string"!=typeof e)throw new n("Invalid token specified");var o=!0===(r=r||{}).header?0:1;try{return JSON.parse(t(e.split(".")[o]))}catch(e){throw new n("Invalid token specified: "+e.message)}}n.prototype=new Error,n.prototype.name="InvalidTokenError";const a=o;a.default=o,a.InvalidTokenError=n,module.exports=a;
