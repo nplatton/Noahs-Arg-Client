@@ -283,7 +283,6 @@ main && main.addEventListener("click", handlers.getUser);
 const habitForm = require("../../habitForm");
 const { populateLeaderboards } = require("./orgHelpers");
 
-
 const url = "http://localhost:3000";
 
 async function getOrgUsers() {
@@ -326,7 +325,7 @@ async function getUser(e) {
     ).json();
 
     console.log(response);
-    //habitForm.generateHabits(response); 
+    //habitForm.generateHabits(response);
     habitForm.generateHabitForm(response);
     //habitForm.generateStreak(response);
 
@@ -373,7 +372,8 @@ async function incrementHabit(e) {
   e.preventDefault();
   try {
     const username = localStorage("username");
-    const habit = e.target.id;
+    const habitId = e.target.id;
+    const habit = habitId.split("-")[1];
 
     const options = {
       method: "PATCH",
