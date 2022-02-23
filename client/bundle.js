@@ -26,6 +26,7 @@ async function requestLogin(e) {
       throw new Error("Login not authorised");
     }
     login(response.token);
+    checkLastVisited();
   } catch (err) {
     console.warn(err);
   }
@@ -76,6 +77,24 @@ function logout() {
 function currentUser() {
   const username = localStorage.getItem("username");
   return username;
+}
+
+async function checkLastVisited() {
+  try {
+    const username = localStorage.getItem("username");
+
+    const options = {
+      method: "DELETE",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
+
+    await fetch(`${API_URL}/users/${username}`, options);
+  } catch (err) {
+    console.warn(err);
+  }
 }
 
 module.exports = {
