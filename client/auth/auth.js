@@ -90,7 +90,7 @@ async function checkLastVisited() {
       }),
     };
 
-    await fetch(`${API_URL}/users/${username}`, options);
+    await fetch(`${API_URL}/users/${username}/habits`, options);
   } catch (err) {
     console.warn(err);
   }
