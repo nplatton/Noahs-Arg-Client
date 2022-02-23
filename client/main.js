@@ -1,4 +1,4 @@
-const { generateTitle } = require("./habitForm");
+const { generateTitle, generateHabits, generateHabitForm } = require("./habitForm");
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
 const handlers = require("./src/js/handlers");
@@ -54,5 +54,7 @@ function slider(x0, x1) {
   }
 }
 
+
 const main = document.querySelector("h1");
-main.addEventListener("click", getUser);
+main.addEventListener("click", handlers.getUser)
+
