@@ -4,6 +4,7 @@
 
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 
+
 function checkHabits() {
   if ((getHabits = {})) {
     getHabitForm();
@@ -14,7 +15,7 @@ function checkHabits() {
 
 // Create Choose Habits Form Function, must include habit checkboxes and submit to database.
 
-function createHabitForm() {}
+function createHabitForm(data) {}
 
 // Generate Habit Form Title
 const generateTitle = () => {
@@ -24,23 +25,38 @@ const generateTitle = () => {
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
   titleLabel.innerText = "Please Select Three Habits";
-  formDiv.appendChild(toLabel);
+  formDiv.appendChild(titleLabel);
 
   return formDiv;
 };
 
 // Generate Habit Form Title
 
-const generateHabits = () => {
+function generateStreak(data){
+ console.log(data);
+}
+
+function generateHabits(data){
+
+
+  console.log(data.tracked_habits.textContent);
+
   const habitDiv = document.createElement("div");
   // habitDiv.classList.add("habit_form", "title_habit");
 
-  const habitLabel = document.createElement("label");
-  habitLabel.for = "habit1";
-  habitLabel.innerText = "Drink 3 cups of Water";
+  for (const habit in data.tracked_habits) {
 
-  const habitCheck = document.createElement("input");
-  habitCheck.type = "checkbox";
+    const habitLabel = document.createElement("label");
+    habitLabel.for = habit;
+    habitLabel.innerText = habit;
+
+    const habitCheck = document.createElement("input");
+    habitCheck.type = "checkbox";
+    habitDiv.appendChild(habitLabel);
+    habitDiv.appendChild(habitCheck);
+  }
+
+
 };
 
 const generateHabitForm = () => {
@@ -75,3 +91,5 @@ const showForm = () => {
   generateForm();
   document.querySelector(".add_div");
 };
+
+module.exports= {generateHabits, generateHabitForm};

@@ -1,4 +1,6 @@
+const habitForm = require("../../habitForm");
 const { populateLeaderboards } = require("./orgHelpers");
+
 
 const url = "http://localhost:3000";
 
@@ -26,6 +28,7 @@ async function getOrgUsers() {
 
 async function getUser(e) {
   e.preventDefault();
+
   try {
     const username = localStorage.getItem("username");
 
@@ -39,6 +42,11 @@ async function getUser(e) {
     const response = await (
       await fetch(`${url}/users/${username}`, options)
     ).json();
+
+    console.log(response);
+    //habitForm.generateHabits(response); 
+    habitForm.generateHabitForm(response);
+    habitForm.generateStreak(response);
 
     console.log(response);
     // Use response to populate the habits page
