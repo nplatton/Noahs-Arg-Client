@@ -48,20 +48,15 @@ function generateHabits(data) {
       "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
     habitDiv.appendChild(habitGoal);
     // const weekDaysss = document.createElement("ul")
-    const weekdays = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-      "Sunday",
-    ];
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const weekdayIds = ["mon", "tues", "wed", "thurs", "fri"];
     weekdays.forEach((day) => {
       const dayLabel = document.createElement("label");
       dayLabel.innerText = day;
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
+      const index = weekdays.indexOf(day);
+      dayCheck.id = `${habit}-${weekdayIds[index]}`;
       habitDiv.appendChild(dayLabel);
       habitDiv.appendChild(dayCheck);
     });
