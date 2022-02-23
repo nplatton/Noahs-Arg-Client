@@ -1,28 +1,27 @@
 const jwt_decode = require("jwt-decode");
 const API_URL = "http://localhost:3000";
 
+const { incorrectPassword } = require("./authHelpers.js");
+
 async function requestLogin(e) {
   e.preventDefault();
 
   try {
     console.log(e.target);
-    // let formData = new FormData(e.target);
     const data = {
       username: e.target.username.value,
       password: e.target.psw.value,
-      // org: e.target.value.org
     };
-    console.log(data);
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      // body: JSON.stringify(Object.fromEntries(formData)),
       body: JSON.stringify(data),
     };
 
     const r = await fetch(`${API_URL}/auth/login`, options);
     const response = await r.json();
     if (!response.success) {
+      incorrectPassword();
       throw new Error("Login not authorised");
     }
     login(response.token);
@@ -34,16 +33,21 @@ async function requestLogin(e) {
 async function requestRegistration(e) {
   e.preventDefault();
   try {
-    let formData = new FormData(e.target);
+    const data = {
+      username: e.target.username.value,
+      password: e.target.psw.value,
+      org: e.target.org.value,
+    };
     const options = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.fromEntries(formData)),
+      body: JSON.stringify(data),
     };
-    const r = await fetch(`${API_URL}/auth/register`, options);
-    const data = await r.json();
-    if (data.err) {
-      throw Error(data.err);
+    const response = await (
+      await fetch(`${API_URL}/auth/register`, options)
+    ).json();
+    if (response.err) {
+      throw Error(response.err);
     }
     requestLogin(e);
   } catch (err) {
@@ -55,6 +59,7 @@ function login(token) {
   const user = jwt_decode(token);
   localStorage.setItem("token", token);
   localStorage.setItem("username", user.username);
+  localStorage.setItem("org", user.org);
 
   document.getElementById("register-form").style.display = "none";
   document.getElementById("login-form").style.display = "none";

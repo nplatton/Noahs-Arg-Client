@@ -1,11 +1,24 @@
 const { generateTitle } = require("./habitForm");
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
+const handlers = require("./src/js/handlers");
+
 const loginForm = document.querySelector("#login-form");
 const registerForm = document.querySelector("#register-form");
 
-loginForm.addEventListener("submit", requestLogin);
-registerForm.addEventListener("submit", requestRegistration);
+loginForm && loginForm.addEventListener("submit", requestLogin);
+registerForm && registerForm.addEventListener("submit", requestRegistration);
+
+// If the user is logged in, don't show login forms when returning to homepage
+if (
+  window.location.pathname == "/index.html" &&
+  !!localStorage.getItem("username")
+) {
+  const formContainer = document.querySelector("#home-form-container");
+  formContainer.innerHTML = "";
+} else if (window.location.pathname == "/org.html") {
+  handlers.getOrgUsers();
+}
 
 // ---------------- ORG PAGE -----------------------
 
@@ -34,7 +47,6 @@ container &&
 
 function slider(x0, x1) {
   const i = getComputedStyle(document.documentElement).getPropertyValue("--i");
-  console.log(i);
   if (i == 0 && x0 >= x1) {
     document.documentElement.style.setProperty("--i", 1);
   } else if (i == 1 && x1 > x0) {
