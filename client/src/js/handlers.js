@@ -91,7 +91,8 @@ async function incrementHabit(e) {
   e.preventDefault();
   try {
     const username = localStorage("username");
-    const habit = e.target.id;
+    const habitId = e.target.id;
+    const habit = habitId.split("-")[1];
 
     const options = {
       method: "PATCH",
@@ -111,28 +112,37 @@ async function incrementHabit(e) {
   }
 }
 
-// async function deleteHabits(e) {
-//   e.preventDefault();
-//   try {
-//     const username = localStorage.getItem("username");
+async function checkForHabits(e) {
+  try {
+    const username = localStorage.getItem("username");
 
-//     const options = {
-//       method: "DELETE",
-//     };
+    const options = {
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
 
-//     const response = await (
-//       await fetch(`${url}/users/${username}/habits`, options)
-//     ).json();
-//     console.log(response);
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// }
+    const response = await (
+      await fetch(`${url}/users/${username}/habits`, options)
+    ).json();
+
+    console.log(response);
+
+    if (response === {}) {
+      habitSelect.generateSelectorForm();
+    } else {
+      getUser(e);
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+}
 
 module.exports = {
   getOrgUsers,
   getUser,
   // updateHabitSelection,
   incrementHabit,
-  // deleteHabits,
+  checkForHabits,
 };
