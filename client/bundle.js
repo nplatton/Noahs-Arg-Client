@@ -137,9 +137,6 @@ function generateStreak(data){
 
 function generateHabits(data){
 
-
-  console.log(data.tracked_habits.textContent);
-
   const habitDiv = document.createElement("div");
   // habitDiv.classList.add("habit_form", "title_habit");
 
@@ -153,12 +150,15 @@ function generateHabits(data){
     habitCheck.type = "checkbox";
     habitDiv.appendChild(habitLabel);
     habitDiv.appendChild(habitCheck);
+
+    
   }
 
-
+  return habitDiv;
 };
 
-const generateHabitForm = () => {
+function generateHabitForm(data) {
+  const habitData = generateHabits(data);
   let wrapper = document.querySelector(".wrapper");
   const form = document.createElement("form");
   // add class list for styling
@@ -169,8 +169,8 @@ const generateHabitForm = () => {
   submit.id = "create_btn";
   // add class list for styling
 
-  form.appendChild(generateTitle());
-  form.appendChild(generateHabits());
+  //form.appendChild(generateTitle());
+  form.appendChild(habitData);
   form.appendChild(submit);
 
   wrapper.prepend(form);
@@ -191,7 +191,7 @@ const showForm = () => {
   document.querySelector(".add_div");
 };
 
-module.exports= {generateHabits, generateHabitForm};
+module.exports= {generateTitle, generateHabits, generateHabitForm};
 },{}],4:[function(require,module,exports){
 const { generateTitle, generateHabits, generateHabitForm } = require("./habitForm");
 const { requestLogin, requestRegistration } = require("./auth/auth");
@@ -250,8 +250,10 @@ function slider(x0, x1) {
 }
 
 
-const main = document.querySelector("h1");
+const main = document.getElementById("test_button");
 main.addEventListener("click", handlers.getUser)
+
+
 
 
 },{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":6}],5:[function(require,module,exports){
@@ -307,7 +309,7 @@ async function getUser(e) {
     console.log(response);
     //habitForm.generateHabits(response); 
     habitForm.generateHabitForm(response);
-    habitForm.generateStreak(response);
+    //habitForm.generateStreak(response);
 
     console.log(response);
     // Use response to populate the habits page
