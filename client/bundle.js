@@ -276,6 +276,9 @@ function slider(x0, x1) {
 const main = document.getElementById("test_button");
 main && main.addEventListener("click", handlers.getUser);
 
+if (window.location.pathname == "/personal.html") {
+  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
+}
 
 },{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":7}],5:[function(require,module,exports){
 "use strict";function e(e){this.message=e}e.prototype=new Error,e.prototype.name="InvalidCharacterError";var r="undefined"!=typeof window&&window.atob&&window.atob.bind(window)||function(r){var t=String(r).replace(/=+$/,"");if(t.length%4==1)throw new e("'atob' failed: The string to be decoded is not correctly encoded.");for(var n,o,a=0,i=0,c="";o=t.charAt(i++);~o&&(n=a%4?64*n+o:o,a++%4)?c+=String.fromCharCode(255&n>>(-2*a&6)):0)o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".indexOf(o);return c};function t(e){var t=e.replace(/-/g,"+").replace(/_/g,"/");switch(t.length%4){case 0:break;case 2:t+="==";break;case 3:t+="=";break;default:throw"Illegal base64url string!"}try{return function(e){return decodeURIComponent(r(e).replace(/(.)/g,(function(e,r){var t=r.charCodeAt(0).toString(16).toUpperCase();return t.length<2&&(t="0"+t),"%"+t})))}(t)}catch(e){return r(t)}}function n(e){this.message=e}function o(e,r){if("string"!=typeof e)throw new n("Invalid token specified");var o=!0===(r=r||{}).header?0:1;try{return JSON.parse(t(e.split(".")[o]))}catch(e){throw new n("Invalid token specified: "+e.message)}}n.prototype=new Error,n.prototype.name="InvalidTokenError";const a=o;a.default=o,a.InvalidTokenError=n,module.exports=a;
@@ -470,30 +473,39 @@ async function incrementHabit(e) {
   }
 }
 
-// async function deleteHabits(e) {
-//   e.preventDefault();
-//   try {
-//     const username = localStorage.getItem("username");
+async function checkForHabits(e) {
+  try {
+    const username = localStorage.getItem("username");
 
-//     const options = {
-//       method: "DELETE",
-//     };
+    const options = {
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
 
-//     const response = await (
-//       await fetch(`${url}/users/${username}/habits`, options)
-//     ).json();
-//     console.log(response);
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// }
+    const response = await (
+      await fetch(`${url}/users/${username}/habits`, options)
+    ).json();
+
+    console.log(response);
+
+    if (response === {}) {
+      habitSelect.generateSelectorForm();
+    } else {
+      getUser(e);
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+}
 
 module.exports = {
   getOrgUsers,
   getUser,
   // updateHabitSelection,
   incrementHabit,
-  // deleteHabits,
+  checkForHabits,
 };
 
 },{"../../habitForm":3,"../../selectHabits":6,"./orgHelpers":8}],8:[function(require,module,exports){

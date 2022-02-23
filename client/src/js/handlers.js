@@ -113,16 +113,24 @@ async function incrementHabit(e) {
 }
 
 async function checkForHabits(e) {
-  e.preventDefault();
   try {
     const username = localStorage.getItem("username");
 
+    const options = {
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+    };
+
     const response = await (
-      await fetch(`${url}/users/${username}/habits`)
+      await fetch(`${url}/users/${username}/habits`, options)
     ).json();
 
+    console.log(response);
+
     if (response === {}) {
-      habitSelect.generateSelectorForm(response);
+      habitSelect.generateSelectorForm();
     } else {
       getUser(e);
     }
@@ -136,4 +144,5 @@ module.exports = {
   getUser,
   // updateHabitSelection,
   incrementHabit,
+  checkForHabits,
 };

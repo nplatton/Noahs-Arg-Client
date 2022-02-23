@@ -61,3 +61,6 @@ function slider(x0, x1) {
 const main = document.getElementById("test_button");
 main && main.addEventListener("click", handlers.getUser);
 
+if (window.location.pathname == "/personal.html") {
+  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
+}
