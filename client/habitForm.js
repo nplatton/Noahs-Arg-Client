@@ -12,9 +12,7 @@ function checkHabits() {
   }
 }
 
-// Create Choose Habits Form Function, must include habit checkboxes and submit to database.
-
-function createHabitForm(data) {}
+// Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
 // Generate Habit Form Title for Already made habits- Welcomes User
 const generateTitle = () => {
@@ -44,6 +42,11 @@ function generateHabits(data) {
     habitCheck.type = "checkbox";
     habitDiv.appendChild(habitLabel);
     habitDiv.appendChild(habitCheck);
+
+    const habitGoal = document.createElement("label");
+    habitGoal.innerText =
+      "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
+    habitDiv.appendChild(habitGoal);
     // const weekDaysss = document.createElement("ul")
     const weekdays = [
       "Monday",
@@ -66,9 +69,9 @@ function generateHabits(data) {
 
   return habitDiv;
 }
-function generateStreak(data) {
-  const habitDiv = console.log(data);
-}
+// function generateStreak(data) {
+//   const habitDiv = console.log(data);
+// }
 
 function generateHabitForm(data) {
   const habitData = generateHabits(data);
@@ -88,20 +91,5 @@ function generateHabitForm(data) {
 
   wrapper.prepend(form);
 }
-
-// Create Habits form, must include 3 Habits, checkboxes, current score, goal.
-
-function showHabits() {}
-
-// Create form elements:
-
-// Convert checkbox value into json
-
-// Show Form When Button is Clicked
-
-const showForm = () => {
-  generateForm();
-  document.querySelector(".add_div");
-};
 
 module.exports = { generateTitle, generateHabits, generateHabitForm };
