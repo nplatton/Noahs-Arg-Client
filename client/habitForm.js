@@ -4,7 +4,6 @@
 
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 
-
 function checkHabits() {
   if ((getHabits = {})) {
     getHabitForm();
@@ -13,36 +12,28 @@ function checkHabits() {
   }
 }
 
-// Create Choose Habits Form Function, must include habit checkboxes and submit to database.
+// Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
-function createHabitForm(data) {}
-
-// Generate Habit Form Title
+// Generate Habit Form Title for Already made habits- Welcomes User
 const generateTitle = () => {
   const formDiv = document.createElement("div");
   // formDiv.classList.add("habit_form", "title_habit");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Please Select Three Habits";
+  titleLabel.innerText = "Welcome User"; // Get user's name
   formDiv.appendChild(titleLabel);
 
   return formDiv;
 };
 
-// Generate Habit Form Title
+// Generates the users habits
 
-function generateStreak(data){
- console.log(data);
-}
-
-function generateHabits(data){
-
+function generateHabits(data) {
   const habitDiv = document.createElement("div");
   // habitDiv.classList.add("habit_form", "title_habit");
 
   for (const habit in data.tracked_habits) {
-
     const habitLabel = document.createElement("label");
     habitLabel.for = habit;
     habitLabel.innerText = habit;
@@ -52,11 +43,35 @@ function generateHabits(data){
     habitDiv.appendChild(habitLabel);
     habitDiv.appendChild(habitCheck);
 
-    
+    const habitGoal = document.createElement("label");
+    habitGoal.innerText =
+      "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
+    habitDiv.appendChild(habitGoal);
+    // const weekDaysss = document.createElement("ul")
+    const weekdays = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      "Sunday",
+    ];
+    weekdays.forEach((day) => {
+      const dayLabel = document.createElement("label");
+      dayLabel.innerText = day;
+      const dayCheck = document.createElement("input");
+      dayCheck.type = "checkbox";
+      habitDiv.appendChild(dayLabel);
+      habitDiv.appendChild(dayCheck);
+    });
   }
 
   return habitDiv;
-};
+}
+// function generateStreak(data) {
+//   const habitDiv = console.log(data);
+// }
 
 function generateHabitForm(data) {
   const habitData = generateHabits(data);
@@ -70,26 +85,11 @@ function generateHabitForm(data) {
   submit.id = "create_btn";
   // add class list for styling
 
-  //form.appendChild(generateTitle());
+  form.appendChild(generateTitle());
   form.appendChild(habitData);
   form.appendChild(submit);
 
   wrapper.prepend(form);
-};
+}
 
-// Create Habits form, must include 3 Habits, checkboxes, current score, goal.
-
-function showHabits() {}
-
-// Create form elements:
-
-// Convert checkbox value into json
-
-// Show Form When Button is Clicked
-
-const showForm = () => {
-  generateForm();
-  document.querySelector(".add_div");
-};
-
-module.exports= {generateTitle, generateHabits, generateHabitForm};
+module.exports = { generateTitle, generateHabits, generateHabitForm };
