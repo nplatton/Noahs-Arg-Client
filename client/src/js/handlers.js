@@ -112,28 +112,28 @@ async function incrementHabit(e) {
   }
 }
 
-// async function deleteHabits(e) {
-//   e.preventDefault();
-//   try {
-//     const username = localStorage.getItem("username");
+async function checkForHabits(e) {
+  e.preventDefault();
+  try {
+    const username = localStorage.getItem("username");
 
-//     const options = {
-//       method: "DELETE",
-//     };
+    const response = await (
+      await fetch(`${url}/users/${username}/habits`)
+    ).json();
 
-//     const response = await (
-//       await fetch(`${url}/users/${username}/habits`, options)
-//     ).json();
-//     console.log(response);
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// }
+    if (response === {}) {
+      habitSelect.generateSelectorForm(response);
+    } else {
+      getUser(e);
+    }
+  } catch (err) {
+    console.warn(err);
+  }
+}
 
 module.exports = {
   getOrgUsers,
   getUser,
   // updateHabitSelection,
   incrementHabit,
-  // deleteHabits,
 };
