@@ -182,11 +182,13 @@ h5 {
 
 /* --------------------------- Personal Page ------------------------------- */
 
-.habitForm {
+/* Select Habits Form */
+.wrapper {
   border: 5px solid #ccc;
   border-radius: 25px;
   background-color: white;
 }
+
 .habitSelect {
   display: flex;
 }

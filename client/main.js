@@ -2,7 +2,7 @@ const {
   generateTitle,
   generateHabits,
   generateHabitForm,
-  updateHabits
+  updateHabits,
 } = require("./habitForm");
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
@@ -32,7 +32,6 @@ if (window.location.pathname == "/index.html") {
   // Add event listener for checkbox clicks on personal.html
   setTimeout(() => {
     const boxes = document.querySelectorAll(".habit-day-box");
-    console.log(boxes);
     boxes.forEach((box) => {
       box.addEventListener("click", (e) => {
         e.preventDefault();
@@ -76,10 +75,12 @@ function slider(x0, x1) {
   }
 }
 
-const main = document.getElementById("test_button");
-main && main.addEventListener("click", handlers.getUser);
-
-
 if (window.location.pathname == "/personal.html") {
   window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
+
+  setTimeout(() => {
+    const selectForm = document.querySelector("#select-form");
+    selectForm &&
+      selectForm.addEventListener("submit", handlers.updateHabitSelection);
+  }, 1000);
 }

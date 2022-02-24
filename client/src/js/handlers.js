@@ -44,47 +44,62 @@ async function getUser(e) {
     ).json();
 
     // Use response to populate the habits page
-    
+
     habitForm.generateHabitForm(response);
     habitForm.updateHabits(response);
     // habitSelect.generateSelectorForm(response);
-
   } catch (err) {
     console.warn(err);
   }
 }
 
-// async function updateHabitSelection(e) {
-//   e.preventDefault();
-//   try {
-//     const username = localStorage.getItem("username");
+async function updateHabitSelection(e) {
+  e.preventDefault();
+  try {
+    const container = document.querySelector(".wrapper");
+    container.innerHTML = "";
 
-//     const data = {};
-//     for (const habit of e.target) {
-//       data[`${habit}`] = {
-//         target_amount: e.target[`${habit}`].value,
-//         daily_count: 0,
-//         weekly_count: 0,
-//       };
-//     }
+    const username = localStorage.getItem("username");
 
-//     const options = {
-//       method: "PATCH",
-//       headers: new Headers({
-//         authorization: localStorage.getItem("token"),
-//         "Content-Type": "application/json",
-//       }),
-//       body: JSON.stringify(data),
-//     };
+    let arr = [];
+    let selectorIds = ["1", "3", "5"];
+    for (const id of selectorIds) {
+      arr.push(e.target[id].value);
+    }
 
-//     const reponse = await (
-//       await fetch(`${url}/users/${username}/habits`, options)
-//     ).json();
-//     console.log(response);
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// }
+    const habits = ["drink_water", "break_from_screen", "stretch"];
+    let data = {};
+    for (const habit of habits) {
+      data[`${habit}`] = {
+        target_amount: arr[habits.indexOf(habit)],
+        mon: 0,
+        tues: 0,
+        wed: 0,
+        thurs: 0,
+        fri: 0,
+        weekly_count: 0,
+      };
+    }
+
+    const options = {
+      method: "PATCH",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify(data),
+    };
+
+    const response = await (
+      await fetch(`${url}/users/${username}/habits`, options)
+    ).json();
+
+    habitForm.generateHabitForm(response);
+    habitForm.updateHabits(response);
+  } catch (err) {
+    console.warn(err);
+  }
+}
 
 async function incrementHabit(e) {
   e.preventDefault();
@@ -143,7 +158,7 @@ async function checkForHabits(e) {
 module.exports = {
   getOrgUsers,
   getUser,
-  // updateHabitSelection,
+  updateHabitSelection,
   incrementHabit,
   checkForHabits,
 };

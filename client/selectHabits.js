@@ -2,11 +2,11 @@
 
 const generateSelectTitle = () => {
   const habitSDiv = document.createElement("div");
-  // formDiv.classList.add("habit_form", "title_habit");
+  habitSDiv.classList.add("habitS_form", "title_habit");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Please Choose Your Habits"; // Get user's name
+  titleLabel.innerText = "Please Choose Your Habits";
   habitSDiv.appendChild(titleLabel);
 
   return habitSDiv;
@@ -14,35 +14,38 @@ const generateSelectTitle = () => {
 
 function generateSelector() {
   const habitDiv = document.createElement("div");
-  // drink more water
-  const waterLabel = document.createElement("label");
-  waterLabel.innerText = "drink_water";
+  const habits = ["water", "break", "stretch"];
+  habits.forEach((habit) => {
+    const habitLabel = document.createElement("label");
+    habitLabel.innerText = habit;
+    const habitCheck = document.createElement("input");
+    habitCheck.type = "checkbox";
+    habitCheck.checked = true;
+    habitCheck.style.display = "none";
 
-  const waterCheck = document.createElement("input");
-  waterCheck.type = "checkbox";
+    const habitSelect = document.createElement("select");
+    habitSelect.classList.add("selector");
 
-  habitDiv.appendChild(waterLabel);
-  habitDiv.appendChild(waterCheck);
-  // take breaks
-  const breakLabel = document.createElement("label");
-  breakLabel.innerText = "break_from_screen";
+    const goalNums = [1, 2, 3, 4, 5];
+    goalNums.forEach((goalNum) => {
+      const habitOption = document.createElement("option");
+      habitOption.selected = true;
+      habitOption.innerText = goalNum;
+      habitSelect.appendChild(habitOption);
+    });
 
-  const breakCheck = document.createElement("input");
-  breakCheck.type = "checkbox";
+    // Add Elements to Each Option
+    // options.forEach((option) => {
+    // const optionElem = document.createElement("option");
+    // optionElem.value = option;
+    // optionElem.innerText = option;
+    // optionElem.classList.add("tag_option");
+    // select.appendChild(optionElem);
 
-  habitDiv.appendChild(breakLabel);
-  habitDiv.appendChild(breakCheck);
-
-  // stretch
-  const stretchLabel = document.createElement("label");
-  stretchLabel.innerText = "stretch";
-
-  const stretchCheck = document.createElement("input");
-  stretchCheck.type = "checkbox";
-
-  habitDiv.appendChild(stretchLabel);
-  habitDiv.appendChild(stretchCheck);
-
+    habitDiv.appendChild(habitLabel);
+    habitDiv.appendChild(habitCheck);
+    habitDiv.appendChild(habitSelect);
+  });
   return habitDiv;
 }
 
@@ -61,8 +64,9 @@ function generateSelectorForm() {
   form.appendChild(generateSelectTitle());
   form.appendChild(habitData);
   form.appendChild(submit);
+  form.id = "select-form";
 
-  wrapper.append(form);
+  wrapper.prepend(form);
 }
 
 module.exports = {
