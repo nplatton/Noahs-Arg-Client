@@ -260,6 +260,7 @@ function generateHabitForm(data) {
   const habitData = generateHabits(data);
   let wrapper = document.querySelector(".wrapper");
   const form = document.createElement("form");
+  form.id = "weekly-habit-form";
   // add class list for styling
 
   const submit = document.createElement("input");
