@@ -39,6 +39,16 @@ function generateHabits(data) {
     habitGoal.innerText =
       "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
     habitDiv.appendChild(habitGoal);
+
+    const currentStreak = document.createElement("label");
+    currentStreak.innerText =
+      "Current Streak: " + data.streaks[`${habit}`].current;
+    habitDiv.appendChild(currentStreak);
+
+    const highestStreak = document.createElement("label");
+    highestStreak.innerText =
+      "Highest Streak: " + data.streaks[`${habit}`].highest;
+    habitDiv.appendChild(highestStreak);
     // const weekDaysss = document.createElement("ul")
 
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];

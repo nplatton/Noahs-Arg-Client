@@ -157,6 +157,16 @@ function generateHabits(data) {
     habitGoal.innerText =
       "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
     habitDiv.appendChild(habitGoal);
+
+    const currentStreak = document.createElement("label");
+    currentStreak.innerText =
+      "Current Streak: " + data.streaks[`${habit}`].current;
+    habitDiv.appendChild(currentStreak);
+
+    const highestStreak = document.createElement("label");
+    highestStreak.innerText =
+      "Highest Streak: " + data.streaks[`${habit}`].highest;
+    habitDiv.appendChild(highestStreak);
     // const weekDaysss = document.createElement("ul")
 
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
@@ -369,7 +379,9 @@ const generateSelectTitle = () => {
 
 function generateSelector() {
   const habitDiv = document.createElement("div");
+  habitDiv.classList.add("habitS_form", "label_habit");
   const habits = ["water", "break", "stretch"];
+
   habits.forEach((habit) => {
     const habitLabel = document.createElement("label");
     habitLabel.innerText = habit;
@@ -378,6 +390,7 @@ function generateSelector() {
 
     const habitSelect = document.createElement("select");
     habitSelect.id = "selector";
+    habitSelect.classList.add("habit_selector");
 
     const goalNums = [1, 2, 3, 4, 5];
     goalNums.forEach((goalNum) => {
@@ -412,7 +425,7 @@ function generateSelectorForm() {
   submit.type = "submit";
   submit.value = "Create Habits";
   submit.id = "create_btn";
-  // add class list for styling
+  submit.classList.add("habit_submit");
 
   form.appendChild(generateSelectTitle());
   form.appendChild(habitData);
