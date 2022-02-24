@@ -71,7 +71,7 @@ function login(token) {
 
 function logout() {
   localStorage.clear();
-  location.reload();
+  // location.reload();
 }
 
 function currentUser() {
@@ -166,20 +166,23 @@ function generateHabits(data) {
       "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
     habitDiv.appendChild(habitGoal);
     // const weekDaysss = document.createElement("ul")
-    const weekdays = [
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday"
-    ];
+
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const weekdayIds = ["mon", "tues", "wed", "thurs", "fri"];
+
     weekdays.forEach((day) => {
       const dayLabel = document.createElement("label");
       dayLabel.innerText = day;
 
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
-      dayCheck.id= habit + "-" + day;
+
+      const index = weekdays.indexOf(day);
+      dayCheck.classList.add("habit-day-box");
+      dayCheck.id = `${habit}-${weekdayIds[index]}`;
+
+      // dayCheck.id= habit + "-" + day;
+
       habitDiv.appendChild(dayLabel);
       habitDiv.appendChild(dayCheck);
 
@@ -296,22 +299,39 @@ const {
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
 const handlers = require("./src/js/handlers");
-
-const loginForm = document.querySelector("#login-form");
-const registerForm = document.querySelector("#register-form");
-
-loginForm && loginForm.addEventListener("submit", requestLogin);
-registerForm && registerForm.addEventListener("submit", requestRegistration);
+const loginFormTemplate = require("./src/js/templates/loginForm");
+const welcomeTemplate = require("./src/js/templates/welcome");
 
 // If the user is logged in, don't show login forms when returning to homepage
-if (
-  window.location.pathname == "/index.html" &&
-  !!localStorage.getItem("username")
-) {
+if (window.location.pathname == "/index.html") {
+  const username = localStorage.getItem("username");
   const formContainer = document.querySelector("#home-form-container");
-  formContainer.innerHTML = "";
+  if (!!localStorage.getItem("username")) {
+    formContainer.innerHTML = welcomeTemplate(username);
+  } else {
+    formContainer.innerHTML = loginFormTemplate();
+
+    const loginForm = document.querySelector("#login-form");
+    const registerForm = document.querySelector("#register-form");
+
+    loginForm && loginForm.addEventListener("submit", requestLogin);
+    registerForm &&
+      registerForm.addEventListener("submit", requestRegistration);
+  }
 } else if (window.location.pathname == "/org.html") {
   handlers.getOrgUsers();
+} else if (window.location.pathname == "/personal.html") {
+  // Add event listener for checkbox clicks on personal.html
+  setTimeout(() => {
+    const boxes = document.querySelectorAll(".habit-day-box");
+    console.log(boxes);
+    boxes.forEach((box) => {
+      box.addEventListener("click", (e) => {
+        e.preventDefault();
+        handlers.incrementHabit(e);
+      });
+    });
+  }, 500);
 }
 
 // ---------------- ORG PAGE -----------------------
@@ -356,7 +376,7 @@ if (window.location.pathname == "/personal.html") {
   window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
 }
 
-},{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":7}],5:[function(require,module,exports){
+},{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":7,"./src/js/templates/loginForm":9,"./src/js/templates/welcome":10}],5:[function(require,module,exports){
 "use strict";function e(e){this.message=e}e.prototype=new Error,e.prototype.name="InvalidCharacterError";var r="undefined"!=typeof window&&window.atob&&window.atob.bind(window)||function(r){var t=String(r).replace(/=+$/,"");if(t.length%4==1)throw new e("'atob' failed: The string to be decoded is not correctly encoded.");for(var n,o,a=0,i=0,c="";o=t.charAt(i++);~o&&(n=a%4?64*n+o:o,a++%4)?c+=String.fromCharCode(255&n>>(-2*a&6)):0)o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".indexOf(o);return c};function t(e){var t=e.replace(/-/g,"+").replace(/_/g,"/");switch(t.length%4){case 0:break;case 2:t+="==";break;case 3:t+="=";break;default:throw"Illegal base64url string!"}try{return function(e){return decodeURIComponent(r(e).replace(/(.)/g,(function(e,r){var t=r.charCodeAt(0).toString(16).toUpperCase();return t.length<2&&(t="0"+t),"%"+t})))}(t)}catch(e){return r(t)}}function n(e){this.message=e}function o(e,r){if("string"!=typeof e)throw new n("Invalid token specified");var o=!0===(r=r||{}).header?0:1;try{return JSON.parse(t(e.split(".")[o]))}catch(e){throw new n("Invalid token specified: "+e.message)}}n.prototype=new Error,n.prototype.name="InvalidTokenError";const a=o;a.default=o,a.InvalidTokenError=n,module.exports=a;
 
 
@@ -481,10 +501,11 @@ async function getUser(e) {
     ).json();
 
     // Use response to populate the habits page
+
     habitForm.generateHabitForm(response);
     habitForm.updateHabits(response);
     // habitSelect.generateSelectorForm(response);
-    
+
   } catch (err) {
     console.warn(err);
   }
@@ -525,9 +546,14 @@ async function getUser(e) {
 async function incrementHabit(e) {
   e.preventDefault();
   try {
-    const username = localStorage("username");
+    const username = localStorage.getItem("username");
     const habitId = e.target.id;
-    const habit = habitId.split("-")[1];
+    const habit = habitId.split("-")[0];
+    const day = habitId.split("-")[1];
+
+    const data = {
+      dayOfWeek: day,
+    };
 
     const options = {
       method: "PATCH",
@@ -535,13 +561,12 @@ async function incrementHabit(e) {
         authorization: localStorage.getItem("token"),
         "Content-Type": "application/json",
       }),
+      body: JSON.stringify(data),
     };
 
-    const response = await (
-      await fetch(`${url}/users/${username}/habits/${habit}`)
+    await (
+      await fetch(`${url}/users/${username}/habits/${habit}`, options)
     ).json();
-
-    console.log(response);
   } catch (err) {
     console.warn(err);
   }
@@ -561,8 +586,6 @@ async function checkForHabits(e) {
     const response = await (
       await fetch(`${url}/users/${username}/habits`, options)
     ).json();
-
-    console.log(response);
 
     if (response === {}) {
       habitSelect.generateSelectorForm();
@@ -678,5 +701,94 @@ function reorder(arr) {
 module.exports = {
   populateLeaderboards,
 };
+
+},{}],9:[function(require,module,exports){
+function loginFormTemplate() {
+  return `<form id="register-form" action="submit" class="formWrapper1">
+  <div class="container">
+    <h2>Sign Up</h2>
+    <p>Please fill in this form to create an account.</p>
+    <hr />
+
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" id="username" required />
+
+    <label for="org"><b>Organisation</b></label>
+    <input
+    type="text"
+    placeholder="Enter Organisation"
+    name="org"
+    required
+    />
+
+    <label for="psw"><b>Password</b></label>
+    <input
+      type="password"
+      placeholder="Enter Password"
+      name="psw"
+      id="password"
+      required
+    />
+
+    <div class="clearfix">
+      <button type="submit" class="signupbtn">Sign Up</button>
+    </div>
+  </div>
+</form>
+
+<form id="login-form" action="submit" class="formWrapper2">
+  <div class="container">
+    <h2>Sign In</h2>
+    <p>Please fill in this form to sign into your account.</p>
+    <hr />
+
+    <label for="username"><b>Username</b></label>
+    <input type="text" placeholder="Enter Username" name="username" required />
+
+    <label for="psw"><b>Password</b></label>
+    <input
+      id="login-password"
+      type="password"
+      placeholder="Enter Password"
+      name="psw"
+      required
+    />
+
+    <div class="clearfix">
+      <button type="submit" class="signinbtn">Sign In</button>
+    </div>
+  </div>
+</form>`;
+}
+
+module.exports = loginFormTemplate;
+
+},{}],10:[function(require,module,exports){
+function welcomeTemplate(username) {
+  return `<div id="rule-container">
+  <h2>Hi, ${username}!</h2>
+  <div class="rules-square">
+    <h3>Website Guide:</h3>
+    <p>Welcome! Now you are logged in you have access to everything our site has to offer!<br/>
+    Let us start with a quick breakdown of your pages:</p>
+    <h4>Habits Page</h4>
+    <p>Use this page to view and update your weekly habits!<br/>
+    At the start of each week you make a choice of 3 habits to track every day and the quantity you want to track for each.<br/>
+    You can then view your progress on your habit page!<br/>
+    When you're there you can also check of your completed habit for the day and view the current streak you are on for that habit!</p>
+    <h4>Organisation Page</h4>
+    <p>View the leaderboards of all your peers within your organisation! Who said we can't make habit tracking competitive!<br/>
+    I bet you're wondering, how does the scoring system even work?<br/>
+    Well, as we mentioned above you choose how many of a task you want to complete in a day. For example, you may choose to<br/>
+    drink 5 cups of water per day. Then each day you complete this task you would get 5 point and this gets added to your<br/>
+    weekly total!
+    It's as simple as that!</p>
+    <h5>Go ahead and enjoy!</h5>
+  </div>
+</div>
+  `;
+}
+
+module.exports = welcomeTemplate;
 
 },{}]},{},[4]);

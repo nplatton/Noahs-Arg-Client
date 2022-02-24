@@ -7,22 +7,39 @@ const {
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
 const handlers = require("./src/js/handlers");
-
-const loginForm = document.querySelector("#login-form");
-const registerForm = document.querySelector("#register-form");
-
-loginForm && loginForm.addEventListener("submit", requestLogin);
-registerForm && registerForm.addEventListener("submit", requestRegistration);
+const loginFormTemplate = require("./src/js/templates/loginForm");
+const welcomeTemplate = require("./src/js/templates/welcome");
 
 // If the user is logged in, don't show login forms when returning to homepage
-if (
-  window.location.pathname == "/index.html" &&
-  !!localStorage.getItem("username")
-) {
+if (window.location.pathname == "/index.html") {
+  const username = localStorage.getItem("username");
   const formContainer = document.querySelector("#home-form-container");
-  formContainer.innerHTML = "";
+  if (!!localStorage.getItem("username")) {
+    formContainer.innerHTML = welcomeTemplate(username);
+  } else {
+    formContainer.innerHTML = loginFormTemplate();
+
+    const loginForm = document.querySelector("#login-form");
+    const registerForm = document.querySelector("#register-form");
+
+    loginForm && loginForm.addEventListener("submit", requestLogin);
+    registerForm &&
+      registerForm.addEventListener("submit", requestRegistration);
+  }
 } else if (window.location.pathname == "/org.html") {
   handlers.getOrgUsers();
+} else if (window.location.pathname == "/personal.html") {
+  // Add event listener for checkbox clicks on personal.html
+  setTimeout(() => {
+    const boxes = document.querySelectorAll(".habit-day-box");
+    console.log(boxes);
+    boxes.forEach((box) => {
+      box.addEventListener("click", (e) => {
+        e.preventDefault();
+        handlers.incrementHabit(e);
+      });
+    });
+  }, 500);
 }
 
 // ---------------- ORG PAGE -----------------------
