@@ -43,13 +43,11 @@ async function getUser(e) {
       await fetch(`${url}/users/${username}`, options)
     ).json();
 
-    console.log(response);
-
-    habitForm.generateHabitForm(response);
-    // habitSelect.generateSelectorForm(response);
-
-    console.log(response);
     // Use response to populate the habits page
+    habitForm.generateHabitForm(response);
+    habitForm.updateHabits(response);
+    // habitSelect.generateSelectorForm(response);
+    
   } catch (err) {
     console.warn(err);
   }
