@@ -13,7 +13,7 @@ global.fetch = require("jest-fetch-mock");
 
 const url = "http://localhost:3000";
 
-describe("handlers.js in index.html", () => {
+describe("handlers.js in org.html & index.html", () => {
   let api;
   beforeEach(() => {
     document.documentElement.innerHTML = html.toString();
@@ -73,7 +73,7 @@ const html2 = fs.readFileSync(
   "utf8"
 );
 
-describe("handlers.js in index.html", () => {
+describe("handlers.js in personal.html", () => {
   let api;
   beforeEach(() => {
     document.documentElement.innerHTML = html2.toString();

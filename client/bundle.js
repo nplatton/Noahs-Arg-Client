@@ -390,11 +390,19 @@ const generateSelectTitle = () => {
 function generateSelector() {
   const habitDiv = document.createElement("div");
   habitDiv.classList.add("habitS_form", "label_habit");
-  const habits = ["water", "break", "stretch"];
+  const habits = [
+    "water",
+    "break",
+    "stretch",
+    "eat_fruit",
+    "fresh_air",
+    "socialise",
+  ];
 
   habits.forEach((habit) => {
     const habitLabel = document.createElement("label");
     habitLabel.innerText = habit;
+    habitLabel.id = habit + "-box-label";
     const habitCheck = document.createElement("input");
     habitCheck.type = "checkbox";
     habitCheck.checked = true;
