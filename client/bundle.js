@@ -300,7 +300,6 @@ if (window.location.pathname == "/index.html") {
   // Add event listener for checkbox clicks on personal.html
   setTimeout(() => {
     const boxes = document.querySelectorAll(".habit-day-box");
-    console.log(boxes);
     boxes.forEach((box) => {
       box.addEventListener("click", (e) => {
         e.preventDefault();
@@ -346,6 +345,12 @@ function slider(x0, x1) {
 
 if (window.location.pathname == "/personal.html") {
   window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
+
+  setTimeout(() => {
+    const selectForm = document.querySelector("#select-form");
+    selectForm &&
+      selectForm.addEventListener("submit", handlers.updateHabitSelection);
+  }, 1000);
 }
 
 },{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":7,"./src/js/templates/loginForm":9,"./src/js/templates/welcome":10}],5:[function(require,module,exports){
@@ -375,9 +380,11 @@ function generateSelector() {
     habitLabel.innerText = habit;
     const habitCheck = document.createElement("input");
     habitCheck.type = "checkbox";
+    habitCheck.checked = true;
+    habitCheck.style.display = "none";
 
     const habitSelect = document.createElement("select");
-    habitSelect.id = "selector";
+    habitSelect.classList.add("selector");
 
     const goalNums = [1, 2, 3, 4, 5];
     goalNums.forEach((goalNum) => {
@@ -417,8 +424,9 @@ function generateSelectorForm() {
   form.appendChild(generateSelectTitle());
   form.appendChild(habitData);
   form.appendChild(submit);
+  form.id = "select-form";
 
-  wrapper.append(form);
+  wrapper.prepend(form);
 }
 
 module.exports = {
@@ -483,37 +491,53 @@ async function getUser(e) {
   }
 }
 
-// async function updateHabitSelection(e) {
-//   e.preventDefault();
-//   try {
-//     const username = localStorage.getItem("username");
+async function updateHabitSelection(e) {
+  e.preventDefault();
+  try {
+    const container = document.querySelector(".wrapper");
+    container.innerHTML = "";
 
-//     const data = {};
-//     for (const habit of e.target) {
-//       data[`${habit}`] = {
-//         target_amount: e.target[`${habit}`].value,
-//         daily_count: 0,
-//         weekly_count: 0,
-//       };
-//     }
+    const username = localStorage.getItem("username");
 
-//     const options = {
-//       method: "PATCH",
-//       headers: new Headers({
-//         authorization: localStorage.getItem("token"),
-//         "Content-Type": "application/json",
-//       }),
-//       body: JSON.stringify(data),
-//     };
+    let arr = [];
+    let selectorIds = ["1", "3", "5"];
+    for (const id of selectorIds) {
+      arr.push(e.target[id].value);
+    }
 
-//     const reponse = await (
-//       await fetch(`${url}/users/${username}/habits`, options)
-//     ).json();
-//     console.log(response);
-//   } catch (err) {
-//     console.warn(err);
-//   }
-// }
+    const habits = ["drink_water", "break_from_screen", "stretch"];
+    let data = {};
+    for (const habit of habits) {
+      data[`${habit}`] = {
+        target_amount: arr[habits.indexOf(habit)],
+        mon: 0,
+        tues: 0,
+        wed: 0,
+        thurs: 0,
+        fri: 0,
+        weekly_count: 0,
+      };
+    }
+
+    const options = {
+      method: "PATCH",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+      body: JSON.stringify(data),
+    };
+
+    const response = await (
+      await fetch(`${url}/users/${username}/habits`, options)
+    ).json();
+
+    habitForm.generateHabitForm(response);
+    habitForm.updateHabits(response);
+  } catch (err) {
+    console.warn(err);
+  }
+}
 
 async function incrementHabit(e) {
   e.preventDefault();
@@ -572,7 +596,7 @@ async function checkForHabits(e) {
 module.exports = {
   getOrgUsers,
   getUser,
-  // updateHabitSelection,
+  updateHabitSelection,
   incrementHabit,
   checkForHabits,
 };
