@@ -178,6 +178,13 @@ function generateHabits(data) {
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
       dayCheck.id = habit + "-" + day;
+      if (
+        data.tracked_habits[`${habit}`][
+          `${weekdayIds[weekdays.indexOf(day)]}`
+        ] == 1
+      ) {
+        dayCheck.checked = true;
+      }
       habitDiv.appendChild(dayLabel);
       habitDiv.appendChild(dayCheck);
     });
@@ -512,12 +519,19 @@ async function updateHabitSelection(e) {
     const username = localStorage.getItem("username");
 
     let arr = [];
-    let selectorIds = ["1", "3", "5"];
+    let selectorIds = ["1", "3", "5", "7", "9", "11"];
     for (const id of selectorIds) {
       arr.push(e.target[id].value);
     }
 
-    const habits = ["drink_water", "break_from_screen", "stretch"];
+    const habits = [
+      "drink_water",
+      "break_from_screen",
+      "stretch",
+      "eat_fruit",
+      "fresh_air",
+      "socialise",
+    ];
     let data = {};
     for (const habit of habits) {
       data[`${habit}`] = {
