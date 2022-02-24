@@ -2,16 +2,6 @@
 
 // require handlers
 
-// Write function for Identifying Habits, If habits, show habits. If not show form.
-
-function checkHabits() {
-  if ((getHabits = {})) {
-    getHabitForm();
-  } else {
-    showHabits();
-  }
-}
-
 // Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
 // Generate Habit Form Title for Already made habits- Welcomes User
@@ -21,7 +11,7 @@ const generateTitle = () => {
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Welcome User"; // Get user's name
+  titleLabel.innerText = "Welcome" + data.username; // Check
   formDiv.appendChild(titleLabel);
 
   return formDiv;

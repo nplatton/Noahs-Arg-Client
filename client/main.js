@@ -58,8 +58,8 @@ function slider(x0, x1) {
   }
 }
 
-const main = document.getElementById("test_button");
-main.addEventListener("click", handlers.getUser);
+// const main = document.getElementById("test_button");
+// main.addEventListener("click", handlers.getUser);
 
 const main = document.getElementById("test_button2");
 main.addEventListener("click", handlers.getUser);

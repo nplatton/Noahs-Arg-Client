@@ -45,8 +45,8 @@ async function getUser(e) {
 
     console.log(response);
 
-    habitForm.generateHabitForm(response);
-    // habitSelect.generateSelectorForm(response);
+    // habitForm.generateHabitForm(response);
+    habitSelect.generateSelectorForm(response);
 
     console.log(response);
     // Use response to populate the habits page
