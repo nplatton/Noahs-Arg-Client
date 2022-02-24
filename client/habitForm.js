@@ -56,6 +56,7 @@ function generateHabits(data) {
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
       const index = weekdays.indexOf(day);
+      dayCheck.classList.add("habit-day-box");
       dayCheck.id = `${habit}-${weekdayIds[index]}`;
       habitDiv.appendChild(dayLabel);
       habitDiv.appendChild(dayCheck);
