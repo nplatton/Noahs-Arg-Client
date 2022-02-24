@@ -99,4 +99,9 @@ function reorder(arr) {
 
 module.exports = {
   populateLeaderboards,
+  reorder,
+  computePoints,
+  rankUsers,
+  getRank,
+  addUser,
 };
