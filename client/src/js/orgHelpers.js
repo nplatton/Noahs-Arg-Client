@@ -1,4 +1,6 @@
 function populateLeaderboards(data) {
+  const above = document.querySelector("#above");
+  above.textContent = `${data[0].org}`;
   // First we want to comput everybody's ranks
   const sortedArray = rankUsers(data);
   const ranks = {};
@@ -24,7 +26,12 @@ function addUser(userData, ranks) {
   const points = document.createElement("div");
   points.classList.add("points-circle");
   const userPoints = computePoints(userData);
-  points.textContent = userPoints;
+  points.textContent = userPoints + " points";
+
+  if (userData.username == localStorage.getItem("username")) {
+    const pointsHolder = document.querySelector("#points-container");
+    pointsHolder.textContent = userPoints;
+  }
 
   const usernameSctn = document.createElement("div");
   usernameSctn.classList.add("username-sctn");

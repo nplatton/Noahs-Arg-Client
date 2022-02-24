@@ -305,9 +305,9 @@ label img {
   overflow: hidden;
   width: 30%;
   height: 70vh;
-  background-color: rgb(187, 186, 186);
+  background-color: white;
   border-radius: 20px;
-  border: #3aafa988 solid 10px;
+  border: #ccc solid 5px;
 }
 
 #inner-container {
@@ -320,16 +320,22 @@ label img {
 }
 
 #Item1 {
-  background-color: aqua;
+  background-color: white;
   width: 50%;
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  font-family: "Libre Baskerville", serif;
+  padding: 10px;
 }
 
 #leaderboard {
   display: flex;
   flex-direction: column;
   justify-content: start;
-  background-color: papayawhip;
+  align-items: center;
+  background-color: white;
   width: 50%;
   pointer-events: none;
 }
@@ -352,24 +358,74 @@ label img {
 #above {
   width: 100%;
   height: 20vh;
-  background-color: rgb(187, 186, 186);
+  background-color: white;
   border-radius: 20px;
-  border: #3aafa988 solid 10px;
+  border: #ccc solid 5px;
+  text-align: center;
+  font-size: 5em;
+  font-family: "Abril Fatface", cursive;
+  padding-top: 5px;
+  color: #17252a;
 }
 
 #user-card {
   width: 100%;
   height: 40vh;
-  background-color: rgb(187, 186, 186);
+  background-color: white;
   border-radius: 20px;
-  border: #3aafa988 solid 10px;
+  border: #ccc solid 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .leaderboard-bar {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 10px;
-  width: 80%;
+  width: 95%;
   height: 10%;
-  border-radius: 10px;
-  background-color: rgb(187, 186, 186);
+  border-radius: 50px;
+  background-color: #3baca8;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border: 3px solid #ccc;
+  color: #17252a;
+}
+
+.rank-circle,
+.points-circle {
+  width: 20%;
+  border-radius: 50%;
+  font-size: 1em;
+  font-family: "Libre Baskerville", serif;
+}
+
+.username-sctn {
+  font-size: 2em;
+  font-family: "Libre Baskerville", serif;
+}
+
+#coming-soon {
+  height: 20%;
+  width: 120%;
+  background-color: #17252a;
+  border-radius: 50px;
+  font-size: 2em;
+  padding-top: 10px;
+  text-align: center;
+  color: white;
+}
+
+#points-container {
+  border-radius: 50%;
+  border: 5px solid #17252a;
+  background-color: #3baca8;
+  color: #17252a;
+  width: 40%;
+  margin: auto;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  font-size: 5em;
+  font-family: "Libre Baskerville", serif;
 }
