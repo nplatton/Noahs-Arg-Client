@@ -199,24 +199,27 @@ h5 {
 
 .title_habit {
   font-family: "Merriweather Sans", sans-serif;
+  font-style: italic;
   font-size: 25px;
   border-bottom: 5px solid #ccc;
   text-align: center;
 }
 
 .label_habit {
-  font-family: "Merriweather Sans", sans-serif;
+  font-family: "EB Garamond", serif;
+  margin-top: 15px;
 }
 
 .habit_selector {
   display: flex;
   margin: auto;
+  cursor: pointer;
 }
 
 .habit_submit {
   display: flex;
   margin: auto;
-  width: 60%;
+  width: 55%;
   border: 5px solid #ccc;
   border-radius: 25px;
   height: 50px;
@@ -232,6 +235,8 @@ h5 {
   display: flex;
 }
 
+/* Habits Form */
+
 input[type="checkbox"][id="waterHabit"] {
   display: none;
 }
@@ -245,7 +250,6 @@ label {
   display: flex;
   position: relative;
   margin: auto;
-  cursor: pointer;
   width: 57%;
 }
 
