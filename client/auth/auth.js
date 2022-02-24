@@ -7,7 +7,6 @@ async function requestLogin(e) {
   e.preventDefault();
 
   try {
-    console.log(e.target);
     const data = {
       username: e.target.username.value,
       password: e.target.psw.value,
