@@ -158,19 +158,19 @@ button:hover {
 
 .rules-square {
   border: darkslategrey solid 3px;
+  border-radius: 20px;
   width: 80%;
 }
 
 #rule-container {
   position: absolute;
-  left: 200px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  margin-left: 100px;
   font-size: 2em;
+  margin-bottom: 20px;
 }
 
 h2,
