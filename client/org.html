@@ -4,6 +4,14 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./imgs/Bw_logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./style.css" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Libre+Baskerville&display=swap"
+      rel="stylesheet"
+    />
     <title>YourOrg</title>
     <link rel="stylesheet" href="./style.css" />
     <script defer src="./bundle.js"></script>
@@ -31,13 +39,29 @@
     <main id="org-main">
       <div id="leaderboard-container">
         <div id="inner-container" class="hide-scrollbar">
-          <div id="Item1"></div>
+          <div id="Item1">
+            <h2>Welcome to your org page!</h2>
+            <br />
+            <p>
+              Come here to view your weekly points and see where you rank
+              amongst your peers!
+            </p>
+            <p>See your current points below:</p>
+            <div id="points-container"></div>
+            <p>
+              Remember, the more you complete your habits the more points you
+              will get!
+            </p>
+            <p>Swipe right to view the leaderboards...</p>
+          </div>
           <div id="leaderboard"></div>
         </div>
       </div>
       <div id="aside">
         <div id="above"></div>
-        <div id="user-card"></div>
+        <div id="user-card">
+          <div id="coming-soon">Peer Breakdown Coming Soon!</div>
+        </div>
       </div>
     </main>
   </body>
