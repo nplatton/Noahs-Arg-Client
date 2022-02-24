@@ -8,13 +8,13 @@ const url = "http://localhost:3000";
 // Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
 // Generate Habit Form Title for Already made habits- Welcomes User
-const generateTitle = () => {
+const generateTitle = (data) => {
   const formDiv = document.createElement("div");
   // formDiv.classList.add("habit_form", "title_habit");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Welcome" + data.username; // Check
+  titleLabel.innerText = "Welcome"; // Check
   formDiv.appendChild(titleLabel);
 
   return formDiv;

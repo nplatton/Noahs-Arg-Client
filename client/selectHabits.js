@@ -6,7 +6,7 @@ const generateSelectTitle = () => {
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Please Choose Your Habits"; // Get user's name
+  titleLabel.innerText = "Please Choose Your Habits";
   habitSDiv.appendChild(titleLabel);
 
   return habitSDiv;

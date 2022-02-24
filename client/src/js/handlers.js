@@ -44,6 +44,7 @@ async function getUser(e) {
     ).json();
 
     // Use response to populate the habits page
+    // habitForm.generateTitle(response);
     habitForm.generateHabitForm(response);
     habitForm.updateHabits(response);
     // habitSelect.generateSelectorForm(response);
