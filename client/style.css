@@ -190,11 +190,12 @@ h5 {
   border: 5px solid #ccc;
   border-radius: 25px;
   background-color: white;
-  max-width: 550px;
+  max-width: fit-content;
   max-height: fit-content;
   margin: 0 auto;
   margin-top: 100px;
   margin-bottom: 100px;
+  padding: 2%;
 }
 
 .title_habit {
@@ -219,7 +220,7 @@ h5 {
 .habit_submit {
   display: flex;
   margin: auto;
-  width: 55%;
+  width: 65%;
   border: 5px solid #ccc;
   border-radius: 25px;
   height: 50px;
@@ -237,6 +238,22 @@ h5 {
 
 /* Habits Form */
 
+.title_got {
+  font-family: "Merriweather Sans", sans-serif;
+  font-style: italic;
+  font-size: 25px;
+  border-bottom: 5px solid #ccc;
+  margin: auto;
+  margin-bottom: 3%;
+}
+.habit_got {
+  display: flex;
+}
+
+.form_got {
+  display: flex;
+  flex-direction: column;
+}
 input[type="checkbox"][id="waterHabit"] {
   display: none;
 }
@@ -249,7 +266,6 @@ label {
   padding: 10px;
   display: flex;
   position: relative;
-  margin: auto;
   width: 57%;
 }
 
