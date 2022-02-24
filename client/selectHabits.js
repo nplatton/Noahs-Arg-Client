@@ -14,7 +14,9 @@ const generateSelectTitle = () => {
 
 function generateSelector() {
   const habitDiv = document.createElement("div");
+  habitDiv.classList.add("habitS_form", "label_habit");
   const habits = ["water", "break", "stretch"];
+
   habits.forEach((habit) => {
     const habitLabel = document.createElement("label");
     habitLabel.innerText = habit;
@@ -24,7 +26,8 @@ function generateSelector() {
     habitCheck.style.display = "none";
 
     const habitSelect = document.createElement("select");
-    habitSelect.classList.add("selector");
+
+    habitSelect.classList.add("habit_selector");
 
     const goalNums = [1, 2, 3, 4, 5];
     goalNums.forEach((goalNum) => {
@@ -59,7 +62,7 @@ function generateSelectorForm() {
   submit.type = "submit";
   submit.value = "Create Habits";
   submit.id = "create_btn";
-  // add class list for styling
+  submit.classList.add("habit_submit");
 
   form.appendChild(generateSelectTitle());
   form.appendChild(habitData);

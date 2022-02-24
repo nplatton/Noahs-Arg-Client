@@ -71,7 +71,7 @@ li a:hover {
 /* Styling Register & Login Forms */
 
 form {
-  max-width: 35vw;
+  max-width: 100%;
   margin: 5% auto;
   font-family: "Libre Baskerville", serif;
 }
@@ -157,9 +157,12 @@ button:hover {
 }
 
 .rules-square {
-  border: darkslategrey solid 3px;
-  border-radius: 20px;
+  border: #ccc solid 10px;
+  border-radius: 25px;
   width: 80%;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 #rule-container {
@@ -187,6 +190,42 @@ h5 {
   border: 5px solid #ccc;
   border-radius: 25px;
   background-color: white;
+  max-width: 550px;
+  max-height: fit-content;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.title_habit {
+  font-family: "Merriweather Sans", sans-serif;
+  font-size: 25px;
+  border-bottom: 5px solid #ccc;
+  text-align: center;
+}
+
+.label_habit {
+  font-family: "Merriweather Sans", sans-serif;
+}
+
+.habit_selector {
+  display: flex;
+  margin: auto;
+}
+
+.habit_submit {
+  display: flex;
+  margin: auto;
+  width: 60%;
+  border: 5px solid #ccc;
+  border-radius: 25px;
+  height: 50px;
+  padding: 10px 100px;
+  margin-top: 30px;
+  background-color: #2b7a78;
+  color: white;
+  cursor: pointer;
+  opacity: 0.9;
 }
 
 .habitSelect {
@@ -203,11 +242,11 @@ input[type="checkbox"][id="sleepHabit"] {
 label {
   border: 1px solid #fff;
   padding: 10px;
-  display: block;
+  display: flex;
   position: relative;
-  margin: 10px;
+  margin: auto;
   cursor: pointer;
-  width: 50%;
+  width: 57%;
 }
 
 label::before {
