@@ -177,6 +177,7 @@ function generateHabits(data) {
 
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
+      dayCheck.classList.add("habit-day-box");
       dayCheck.id = habit + "-" + day;
       if (
         data.tracked_habits[`${habit}`][
@@ -313,16 +314,24 @@ if (window.location.pathname == "/index.html") {
 } else if (window.location.pathname == "/org.html") {
   handlers.getOrgUsers();
 } else if (window.location.pathname == "/personal.html") {
-  // Add event listener for checkbox clicks on personal.html
+  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
+
   setTimeout(() => {
-    const boxes = document.querySelectorAll(".habit-day-box");
-    boxes.forEach((box) => {
-      box.addEventListener("click", (e) => {
-        e.preventDefault();
-        handlers.incrementHabit(e);
-      });
-    });
-  }, 500);
+    const selectForm = document.querySelector("#select-form");
+    selectForm &&
+      selectForm.addEventListener("submit", handlers.updateHabitSelection);
+  }, 1000);
+  // Add event listener for checkbox clicks on personal.html
+  // setTimeout(() => {
+  //   const boxes = document.querySelectorAll(".habit-day-box");
+  //   boxes.forEach((box) => {
+  //     box &&
+  //       box.addEventListener("click", (e) => {
+  //         e.preventDefault();
+  //         handlers.incrementHabit(e);
+  //       });
+  //   });
+  // }, 500);
 }
 
 // ---------------- ORG PAGE -----------------------
@@ -357,16 +366,6 @@ function slider(x0, x1) {
   } else if (i == 1 && x1 > x0) {
     document.documentElement.style.setProperty("--i", 0);
   }
-}
-
-if (window.location.pathname == "/personal.html") {
-  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
-
-  setTimeout(() => {
-    const selectForm = document.querySelector("#select-form");
-    selectForm &&
-      selectForm.addEventListener("submit", handlers.updateHabitSelection);
-  }, 1000);
 }
 
 },{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":7,"./src/js/templates/loginForm":9,"./src/js/templates/welcome":10}],5:[function(require,module,exports){
@@ -565,34 +564,35 @@ async function updateHabitSelection(e) {
   }
 }
 
-async function incrementHabit(e) {
-  e.preventDefault();
-  try {
-    const username = localStorage.getItem("username");
-    const habitId = e.target.id;
-    const habit = habitId.split("-")[0];
-    const day = habitId.split("-")[1];
+// async function incrementHabit(e) {
+//   e.preventDefault();
+//   try {
+//     console.log(2);
+//     const username = localStorage.getItem("username");
+//     const habitId = e.target.id;
+//     const habit = habitId.split("-")[0];
+//     const day = habitId.split("-")[1];
 
-    const data = {
-      dayOfWeek: day,
-    };
+//     const data = {
+//       dayOfWeek: day,
+//     };
 
-    const options = {
-      method: "PATCH",
-      headers: new Headers({
-        authorization: localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify(data),
-    };
+//     const options = {
+//       method: "PATCH",
+//       headers: new Headers({
+//         authorization: localStorage.getItem("token"),
+//         "Content-Type": "application/json",
+//       }),
+//       body: JSON.stringify(data),
+//     };
 
-    await (
-      await fetch(`${url}/users/${username}/habits/${habit}`, options)
-    ).json();
-  } catch (err) {
-    console.warn(err);
-  }
-}
+//     await (
+//       await fetch(`${url}/users/${username}/habits/${habit}`, options)
+//     ).json();
+//   } catch (err) {
+//     console.warn(err);
+//   }
+// }
 
 async function checkForHabits(e) {
   try {
@@ -609,13 +609,17 @@ async function checkForHabits(e) {
       await fetch(`${url}/users/${username}/habits`, options)
     ).json();
 
-    if (!Object.keys(response).length) {
-      habitSelect.generateSelectorForm();
-    } else {
-      getUser(e);
-    }
+    helper(response, e);
   } catch (err) {
     console.warn(err);
+  }
+}
+
+function helper(response, e) {
+  if (!Object.keys(response).length) {
+    habitSelect.generateSelectorForm();
+  } else {
+    getUser(e);
   }
 }
 
@@ -623,8 +627,9 @@ module.exports = {
   getOrgUsers,
   getUser,
   updateHabitSelection,
-  incrementHabit,
+  // incrementHabit,
   checkForHabits,
+  helper,
 };
 
 },{"../../habitForm":3,"../../selectHabits":6,"./orgHelpers":8}],8:[function(require,module,exports){

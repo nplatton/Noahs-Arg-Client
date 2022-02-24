@@ -60,6 +60,7 @@ function generateHabits(data) {
 
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
+      dayCheck.classList.add("habit-day-box");
       dayCheck.id = habit + "-" + day;
       if (
         data.tracked_habits[`${habit}`][
