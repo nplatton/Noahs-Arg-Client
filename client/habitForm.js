@@ -61,6 +61,13 @@ function generateHabits(data) {
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
       dayCheck.id = habit + "-" + day;
+      if (
+        data.tracked_habits[`${habit}`][
+          `${weekdayIds[weekdays.indexOf(day)]}`
+        ] == 1
+      ) {
+        dayCheck.checked = true;
+      }
       habitDiv.appendChild(dayLabel);
       habitDiv.appendChild(dayCheck);
     });
