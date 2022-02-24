@@ -2,7 +2,7 @@ const {
   generateTitle,
   generateHabits,
   generateHabitForm,
-  updateHabits
+  updateHabits,
 } = require("./habitForm");
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
@@ -75,10 +75,6 @@ function slider(x0, x1) {
     document.documentElement.style.setProperty("--i", 0);
   }
 }
-
-const main = document.getElementById("test_button");
-main && main.addEventListener("click", handlers.getUser);
-
 
 if (window.location.pathname == "/personal.html") {
   window.addEventListener("DOMContentLoaded", handlers.checkForHabits);

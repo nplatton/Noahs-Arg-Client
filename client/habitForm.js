@@ -5,24 +5,16 @@
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 const url = "http://localhost:3000";
 
-function checkHabits() {
-  if ((getHabits = {})) {
-    getHabitForm();
-  } else {
-    showHabits();
-  }
-}
-
 // Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
 // Generate Habit Form Title for Already made habits- Welcomes User
-const generateTitle = () => {
+const generateTitle = (data) => {
   const formDiv = document.createElement("div");
   // formDiv.classList.add("habit_form", "title_habit");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Welcome User"; // Get user's name
+  titleLabel.innerText = "Welcome"; // Check
   formDiv.appendChild(titleLabel);
 
   return formDiv;
@@ -58,90 +50,73 @@ function generateHabits(data) {
 
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
-
-      const index = weekdays.indexOf(day);
-      dayCheck.classList.add("habit-day-box");
-      dayCheck.id = `${habit}-${weekdayIds[index]}`;
-
-      // dayCheck.id= habit + "-" + day;
-
+      dayCheck.id = habit + "-" + day;
       habitDiv.appendChild(dayLabel);
       habitDiv.appendChild(dayCheck);
-
-      
     });
 
     habitsDiv.appendChild(habitDiv);
-
   }
 
   return habitsDiv;
 }
 
-
 function updateHabits(data) {
   const updateButton = document.getElementById("create_btn");
-  updateButton.addEventListener('click', (e) => {
-          
-          e.preventDefault();
-            
-            const username = localStorage.getItem("username");
+  updateButton.addEventListener("click", (e) => {
+    e.preventDefault();
 
-            var jsonData1 = "{";
-    
-            for (const habit in data.tracked_habits) {
+    const username = localStorage.getItem("username");
 
-              jsonData1 += '"' + habit + '":';
+    var jsonData1 = "{";
 
-              var monCount = document.getElementById(`${habit}-Monday`).checked ? 1: 0;
-              var tuesCount = document.getElementById(`${habit}-Tuesday`).checked ? 1: 0;
-              var wedCount = document.getElementById(`${habit}-Wednesday`).checked ? 1: 0;
-              var thursCount = document.getElementById(`${habit}-Thursday`).checked ? 1: 0;
-              var friCount = document.getElementById(`${habit}-Friday`).checked ? 1: 0;
-              var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
-          
+    for (const habit in data.tracked_habits) {
+      jsonData1 += '"' + habit + '":';
 
-              var jsonHabit = {
-                 
-                "target_amount": data.tracked_habits[`${habit}`].target_amount,
-                "mon": monCount,
-                "tues": tuesCount,
-                "wed": wedCount,
-                "thurs": thursCount,
-                "fri": friCount,
-                "weekly_count": weeklyCount
-                 
-              };
+      var monCount = document.getElementById(`${habit}-Monday`).checked ? 1 : 0;
+      var tuesCount = document.getElementById(`${habit}-Tuesday`).checked
+        ? 1
+        : 0;
+      var wedCount = document.getElementById(`${habit}-Wednesday`).checked
+        ? 1
+        : 0;
+      var thursCount = document.getElementById(`${habit}-Thursday`).checked
+        ? 1
+        : 0;
+      var friCount = document.getElementById(`${habit}-Friday`).checked ? 1 : 0;
+      var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
 
-              jsonData1 += JSON.stringify(jsonHabit) + ",";
-              
-            }
+      var jsonHabit = {
+        target_amount: data.tracked_habits[`${habit}`].target_amount,
+        mon: monCount,
+        tues: tuesCount,
+        wed: wedCount,
+        thurs: thursCount,
+        fri: friCount,
+        weekly_count: weeklyCount,
+      };
 
-          var jsonData = jsonData1.slice(0, -1);
+      jsonData1 += JSON.stringify(jsonHabit) + ",";
+    }
 
-          jsonData += "}";
+    var jsonData = jsonData1.slice(0, -1);
 
+    jsonData += "}";
 
-            const options = {
-            method: "PATCH",
-            headers: new Headers({
-              authorization: localStorage.getItem("token"),
-              "Content-Type": "application/json",
-            }),
-            body: jsonData,
-          };
+    const options = {
+      method: "PATCH",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+      body: jsonData,
+    };
 
+    const updateUrl = `${url}/users/${username}/habits`;
+    fetch(updateUrl, options).catch((error) => console.log(error));
+  });
+}
 
-          const updateUrl = `${url}/users/${username}/habits`;
-          fetch(updateUrl, options)      
-          .catch((error) => console.log(error));
-          
-        })
-      }
-
-
-
- 
 // function generateStreak(data) {
 //   const habitDiv = console.log(data);
 // }
@@ -161,12 +136,13 @@ function generateHabitForm(data) {
   form.appendChild(generateTitle());
   form.appendChild(habitData);
   form.appendChild(submit);
- 
-  wrapper.prepend(form);
 
+  wrapper.prepend(form);
 }
 
-
-
-
-module.exports = { generateTitle, generateHabits, generateHabitForm, updateHabits };
+module.exports = {
+  generateTitle,
+  generateHabits,
+  generateHabitForm,
+  updateHabits,
+};

@@ -44,11 +44,10 @@ async function getUser(e) {
     ).json();
 
     // Use response to populate the habits page
-    
+
     habitForm.generateHabitForm(response);
     habitForm.updateHabits(response);
     // habitSelect.generateSelectorForm(response);
-
   } catch (err) {
     console.warn(err);
   }

@@ -123,24 +123,16 @@ module.exports = {
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 const url = "http://localhost:3000";
 
-function checkHabits() {
-  if ((getHabits = {})) {
-    getHabitForm();
-  } else {
-    showHabits();
-  }
-}
-
 // Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
 // Generate Habit Form Title for Already made habits- Welcomes User
-const generateTitle = () => {
+const generateTitle = (data) => {
   const formDiv = document.createElement("div");
   // formDiv.classList.add("habit_form", "title_habit");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Welcome User"; // Get user's name
+  titleLabel.innerText = "Welcome"; // Check
   formDiv.appendChild(titleLabel);
 
   return formDiv;
@@ -176,90 +168,73 @@ function generateHabits(data) {
 
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
-
-      const index = weekdays.indexOf(day);
-      dayCheck.classList.add("habit-day-box");
-      dayCheck.id = `${habit}-${weekdayIds[index]}`;
-
-      // dayCheck.id= habit + "-" + day;
-
+      dayCheck.id = habit + "-" + day;
       habitDiv.appendChild(dayLabel);
       habitDiv.appendChild(dayCheck);
-
-      
     });
 
     habitsDiv.appendChild(habitDiv);
-
   }
 
   return habitsDiv;
 }
 
-
 function updateHabits(data) {
   const updateButton = document.getElementById("create_btn");
-  updateButton.addEventListener('click', (e) => {
-          
-          e.preventDefault();
-            
-            const username = localStorage.getItem("username");
+  updateButton.addEventListener("click", (e) => {
+    e.preventDefault();
 
-            var jsonData1 = "{";
-    
-            for (const habit in data.tracked_habits) {
+    const username = localStorage.getItem("username");
 
-              jsonData1 += '"' + habit + '":';
+    var jsonData1 = "{";
 
-              var monCount = document.getElementById(`${habit}-Monday`).checked ? 1: 0;
-              var tuesCount = document.getElementById(`${habit}-Tuesday`).checked ? 1: 0;
-              var wedCount = document.getElementById(`${habit}-Wednesday`).checked ? 1: 0;
-              var thursCount = document.getElementById(`${habit}-Thursday`).checked ? 1: 0;
-              var friCount = document.getElementById(`${habit}-Friday`).checked ? 1: 0;
-              var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
-          
+    for (const habit in data.tracked_habits) {
+      jsonData1 += '"' + habit + '":';
 
-              var jsonHabit = {
-                 
-                "target_amount": data.tracked_habits[`${habit}`].target_amount,
-                "mon": monCount,
-                "tues": tuesCount,
-                "wed": wedCount,
-                "thurs": thursCount,
-                "fri": friCount,
-                "weekly_count": weeklyCount
-                 
-              };
+      var monCount = document.getElementById(`${habit}-Monday`).checked ? 1 : 0;
+      var tuesCount = document.getElementById(`${habit}-Tuesday`).checked
+        ? 1
+        : 0;
+      var wedCount = document.getElementById(`${habit}-Wednesday`).checked
+        ? 1
+        : 0;
+      var thursCount = document.getElementById(`${habit}-Thursday`).checked
+        ? 1
+        : 0;
+      var friCount = document.getElementById(`${habit}-Friday`).checked ? 1 : 0;
+      var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
 
-              jsonData1 += JSON.stringify(jsonHabit) + ",";
-              
-            }
+      var jsonHabit = {
+        target_amount: data.tracked_habits[`${habit}`].target_amount,
+        mon: monCount,
+        tues: tuesCount,
+        wed: wedCount,
+        thurs: thursCount,
+        fri: friCount,
+        weekly_count: weeklyCount,
+      };
 
-          var jsonData = jsonData1.slice(0, -1);
+      jsonData1 += JSON.stringify(jsonHabit) + ",";
+    }
 
-          jsonData += "}";
+    var jsonData = jsonData1.slice(0, -1);
 
+    jsonData += "}";
 
-            const options = {
-            method: "PATCH",
-            headers: new Headers({
-              authorization: localStorage.getItem("token"),
-              "Content-Type": "application/json",
-            }),
-            body: jsonData,
-          };
+    const options = {
+      method: "PATCH",
+      headers: new Headers({
+        authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
+      }),
+      body: jsonData,
+    };
 
+    const updateUrl = `${url}/users/${username}/habits`;
+    fetch(updateUrl, options).catch((error) => console.log(error));
+  });
+}
 
-          const updateUrl = `${url}/users/${username}/habits`;
-          fetch(updateUrl, options)      
-          .catch((error) => console.log(error));
-          
-        })
-      }
-
-
-
- 
 // function generateStreak(data) {
 //   const habitDiv = console.log(data);
 // }
@@ -279,22 +254,23 @@ function generateHabitForm(data) {
   form.appendChild(generateTitle());
   form.appendChild(habitData);
   form.appendChild(submit);
- 
-  wrapper.prepend(form);
 
+  wrapper.prepend(form);
 }
 
-
-
-
-module.exports = { generateTitle, generateHabits, generateHabitForm, updateHabits };
+module.exports = {
+  generateTitle,
+  generateHabits,
+  generateHabitForm,
+  updateHabits,
+};
 
 },{}],4:[function(require,module,exports){
 const {
   generateTitle,
   generateHabits,
   generateHabitForm,
-  updateHabits
+  updateHabits,
 } = require("./habitForm");
 const { requestLogin, requestRegistration } = require("./auth/auth");
 
@@ -368,10 +344,6 @@ function slider(x0, x1) {
   }
 }
 
-const main = document.getElementById("test_button");
-main && main.addEventListener("click", handlers.getUser);
-
-
 if (window.location.pathname == "/personal.html") {
   window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
 }
@@ -385,11 +357,11 @@ if (window.location.pathname == "/personal.html") {
 
 const generateSelectTitle = () => {
   const habitSDiv = document.createElement("div");
-  // formDiv.classList.add("habit_form", "title_habit");
+  habitSDiv.classList.add("habitS_form", "title_habit");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Please Choose Your Habits"; // Get user's name
+  titleLabel.innerText = "Please Choose Your Habits";
   habitSDiv.appendChild(titleLabel);
 
   return habitSDiv;
@@ -397,35 +369,36 @@ const generateSelectTitle = () => {
 
 function generateSelector() {
   const habitDiv = document.createElement("div");
-  // drink more water
-  const waterLabel = document.createElement("label");
-  waterLabel.innerText = "drink_water";
+  const habits = ["water", "break", "stretch"];
+  habits.forEach((habit) => {
+    const habitLabel = document.createElement("label");
+    habitLabel.innerText = habit;
+    const habitCheck = document.createElement("input");
+    habitCheck.type = "checkbox";
 
-  const waterCheck = document.createElement("input");
-  waterCheck.type = "checkbox";
+    const habitSelect = document.createElement("select");
+    habitSelect.id = "selector";
 
-  habitDiv.appendChild(waterLabel);
-  habitDiv.appendChild(waterCheck);
-  // take breaks
-  const breakLabel = document.createElement("label");
-  breakLabel.innerText = "break_from_screen";
+    const goalNums = [1, 2, 3, 4, 5];
+    goalNums.forEach((goalNum) => {
+      const habitOption = document.createElement("option");
+      habitOption.selected = true;
+      habitOption.innerText = goalNum;
+      habitSelect.appendChild(habitOption);
+    });
 
-  const breakCheck = document.createElement("input");
-  breakCheck.type = "checkbox";
+    // Add Elements to Each Option
+    // options.forEach((option) => {
+    // const optionElem = document.createElement("option");
+    // optionElem.value = option;
+    // optionElem.innerText = option;
+    // optionElem.classList.add("tag_option");
+    // select.appendChild(optionElem);
 
-  habitDiv.appendChild(breakLabel);
-  habitDiv.appendChild(breakCheck);
-
-  // stretch
-  const stretchLabel = document.createElement("label");
-  stretchLabel.innerText = "stretch";
-
-  const stretchCheck = document.createElement("input");
-  stretchCheck.type = "checkbox";
-
-  habitDiv.appendChild(stretchLabel);
-  habitDiv.appendChild(stretchCheck);
-
+    habitDiv.appendChild(habitLabel);
+    habitDiv.appendChild(habitCheck);
+    habitDiv.appendChild(habitSelect);
+  });
   return habitDiv;
 }
 
@@ -505,7 +478,6 @@ async function getUser(e) {
     habitForm.generateHabitForm(response);
     habitForm.updateHabits(response);
     // habitSelect.generateSelectorForm(response);
-
   } catch (err) {
     console.warn(err);
   }
