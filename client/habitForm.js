@@ -40,7 +40,10 @@ function generateHabits(data) {
       "Your Goal: " + data.tracked_habits[`${habit}`].target_amount;
     habitDiv.appendChild(habitGoal);
     // const weekDaysss = document.createElement("ul")
+
     const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const weekdayIds = ["mon", "tues", "wed", "thurs", "fri"];
+
     weekdays.forEach((day) => {
       const dayLabel = document.createElement("label");
       dayLabel.innerText = day;

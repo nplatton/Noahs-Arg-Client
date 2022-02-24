@@ -13,6 +13,13 @@ body {
   background-color: #3aafa9;
 }
 
+.top-nav {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+}
+
 /* Styling Title */
 
 .titleWrap {
@@ -147,6 +154,30 @@ button:hover {
   .signupbtn {
     width: 100%;
   }
+}
+
+.rules-square {
+  border: darkslategrey solid 3px;
+  border-radius: 20px;
+  width: 80%;
+}
+
+#rule-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+h2,
+h4,
+h5 {
+  font-family: "Abril Fatface", cursive;
+  font-weight: bold;
 }
 
 /* --------------------------- Personal Page ------------------------------- */

@@ -44,7 +44,7 @@ async function getUser(e) {
     ).json();
 
     // Use response to populate the habits page
-    // habitForm.generateTitle(response);
+
     habitForm.generateHabitForm(response);
     habitForm.updateHabits(response);
     // habitSelect.generateSelectorForm(response);
@@ -88,9 +88,14 @@ async function getUser(e) {
 async function incrementHabit(e) {
   e.preventDefault();
   try {
-    const username = localStorage("username");
+    const username = localStorage.getItem("username");
     const habitId = e.target.id;
-    const habit = habitId.split("-")[1];
+    const habit = habitId.split("-")[0];
+    const day = habitId.split("-")[1];
+
+    const data = {
+      dayOfWeek: day,
+    };
 
     const options = {
       method: "PATCH",
@@ -98,13 +103,12 @@ async function incrementHabit(e) {
         authorization: localStorage.getItem("token"),
         "Content-Type": "application/json",
       }),
+      body: JSON.stringify(data),
     };
 
-    const response = await (
-      await fetch(`${url}/users/${username}/habits/${habit}`)
+    await (
+      await fetch(`${url}/users/${username}/habits/${habit}`, options)
     ).json();
-
-    console.log(response);
   } catch (err) {
     console.warn(err);
   }
@@ -125,9 +129,7 @@ async function checkForHabits(e) {
       await fetch(`${url}/users/${username}/habits`, options)
     ).json();
 
-    console.log(response);
-
-    if (response === {}) {
+    if (!Object.keys(response).length) {
       habitSelect.generateSelectorForm();
     } else {
       getUser(e);

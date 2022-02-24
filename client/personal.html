@@ -14,6 +14,25 @@
     <title>Habits</title>
   </head>
   <body>
+    <header class="top-nav">
+      <nav>
+        <ul class="menu expanded text-center">
+          <li class="active"><a href="index.html">Home</a></li>
+          <li><a href="org.html">Your Organisation</a></li>
+          <li class="active">
+            <a id="personal" href="personal.html">Your Habits</a>
+          </li>
+          <li>
+            <a
+              onclick="window.localStorage.clear()"
+              id="'logout"
+              href="index.html"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
     <!-- <form class="habitForm">
       <div class="container">
         <h2>Choose Your Habits!</h2>

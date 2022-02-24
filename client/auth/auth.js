@@ -70,7 +70,7 @@ function login(token) {
 
 function logout() {
   localStorage.clear();
-  location.reload();
+  // location.reload();
 }
 
 function currentUser() {

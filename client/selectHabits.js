@@ -63,7 +63,7 @@ function generateSelectorForm() {
   form.appendChild(habitData);
   form.appendChild(submit);
 
-  wrapper.prepend(form);
+  wrapper.append(form);
 }
 
 module.exports = {
