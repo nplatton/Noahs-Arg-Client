@@ -22,9 +22,11 @@ function generateSelector() {
     habitLabel.innerText = habit;
     const habitCheck = document.createElement("input");
     habitCheck.type = "checkbox";
+    habitCheck.checked = true;
+    habitCheck.style.display = "none";
 
     const habitSelect = document.createElement("select");
-    habitSelect.id = "selector";
+
     habitSelect.classList.add("habit_selector");
 
     const goalNums = [1, 2, 3, 4, 5];
@@ -65,8 +67,9 @@ function generateSelectorForm() {
   form.appendChild(generateSelectTitle());
   form.appendChild(habitData);
   form.appendChild(submit);
+  form.id = "select-form";
 
-  wrapper.append(form);
+  wrapper.prepend(form);
 }
 
 module.exports = {
