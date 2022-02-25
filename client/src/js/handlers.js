@@ -169,5 +169,4 @@ module.exports = {
   updateHabitSelection,
   // incrementHabit,
   checkForHabits,
-  helper,
 };

@@ -663,7 +663,6 @@ module.exports = {
   updateHabitSelection,
   // incrementHabit,
   checkForHabits,
-  helper,
 };
 
 },{"../../habitForm":3,"../../selectHabits":6,"./orgHelpers":8}],8:[function(require,module,exports){
