@@ -4,18 +4,19 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="shortcut icon" href="./imgs/Bw_logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./style.css" type="text/css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Libre+Baskerville&display=swap" rel="stylesheet">
-
+    <script defer src="bundle.js"></script>
     <title>Better Work</title>
   </head>
   <body>
     <header>
       <div class="titleWrap">
         <div class="titleDiv">
-          <h1>Coming Soon...</h1>
+          <h1>Better Work</h1>
         </div>
       </div>
     </header>
@@ -23,69 +24,14 @@
     <nav>
       <ul class="menu expanded text-center">
         <li class="active"><a href="index.html">Home</a></li>
-        <li><a>Instructions</a></li>
-        <li><a>Personal Page</a></li>
+        <li><a href="org.html">Your Organisation</a></li>
+        <li class="active"><a id ="personal" href="personal.html">Your Habits</a></li>
+        <li><a onclick="window.localStorage.clear()" id="'logout" href="index.html">Logout</a></li>
       </ul>
     </nav>
 
-    <div class="formWrapper">
-      <form action="action_page.php" class="formWrapper1">
-        <div class="container">
-          <h2>Sign Up</h2>
-          <p>Please fill in this form to create an account.</p>
-          <hr />
-
-          <label for="username"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="username" required />
-
-          <label for="psw"><b>Password</b></label>
-          <input
-            type="password"
-            placeholder="Enter Password"
-            name="psw"
-            required
-          />
-
-          <label for="psw-repeat"><b>Repeat Password</b></label>
-          <input
-            type="password"
-            placeholder="Repeat Password"
-            name="psw-repeat"
-            required
-          />
-
-          <div class="clearfix">
-            <button type="submit" class="signupbtn">Sign Up</button>
-          </div>
-        </div>
-      </form>
-
-      <form action="action_page.php" class="formWrapper2">
-        <div class="container">
-          <h2>Sign In</h2>
-          <p>Please fill in this form to sign into your account.</p>
-          <hr />
-
-          <label for="username"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" name="username" required />
-
-          <label for="psw"><b>Password</b></label>
-          <input
-            type="password"
-            placeholder="Enter Password"
-            name="psw"
-            required
-          />
-
-          <div class="clearfix">
-            <button type="submit" class="signinbtn">Sign In</button>
-          </div>
-        </div>
-      </form>
-      </div>
-    </div>
+    <div id="home-form-container" class="formWrapper"></div>
     </body>
 
-    <div class="wrapper" id="wrapper"></div>
   </body>
 </html>

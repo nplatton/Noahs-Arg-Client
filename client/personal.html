@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="shortcut icon" href="./imgs/Bw_logo.png" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Abril+Fatface&family=EB+Garamond&family=Libre+Baskerville&family=Merriweather+Sans:ital,wght@0,300;1,300&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/6ac9ad1595.js"
+      crossorigin="anonymous"
+    ></script>
+    <script defer src="./bundle.js"></script>
+    <title>Habits</title>
+  </head>
+  <body>
+    <header class="top-nav">
+      <nav>
+        <ul class="menu expanded text-center">
+          <li class="active"><a href="index.html">Home</a></li>
+          <li><a href="org.html">Your Organisation</a></li>
+          <li class="active">
+            <a id="personal" href="personal.html">Your Habits</a>
+          </li>
+          <li>
+            <a
+              onclick="window.localStorage.clear()"
+              id="'logout"
+              href="index.html"
+              >Logout</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <!-- <form class="habitForm">
+      <div class="container">
+        <h2>Choose Your Habits!</h2>
+        <p>Please select three habits for this week</p>
+        <hr />
+        <div class="habitSelect">
+          <input type="checkbox" id="waterHabit" />
+          <label for="waterHabit"
+            ><img
+              src="https://ih1.redbubble.net/image.342016260.3219/flat,750x,075,f-pad,750x1000,f8f8f8.jpg"
+          /></label>
+
+          <input type="checkbox" id="sleepHabit" />
+          <label for="sleepHabit"
+            ><img src="https://cdn-icons-png.flaticon.com/512/268/268098.png"
+          /></label>
+        </div>
+        <div class="clearfix">
+          <button type="submit" class="signinbtn">Create</button>
+        </div>
+      </div>
+    </form> -->
+    <div class="wrapper" id="wrapper"></div>
+  </body>
+</html>
