@@ -1,6 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const jwt_decode = require("jwt-decode");
-const API_URL = "https://better-work.herokuapp.com";
+const API_URL = "http://localhost:3000";
 
 const { incorrectPassword } = require("./authHelpers.js");
 
@@ -118,7 +118,7 @@ module.exports = {
 // Questions, how do I get the forms to run?
 
 // Write function for Identifying Habits, If habits, show habits. If not show form.
-const url = "https://better-work.herokuapp.com";
+const url = "http://localhost:3000";
 
 // Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
@@ -496,7 +496,7 @@ const habitForm = require("../../habitForm");
 const habitSelect = require("../../selectHabits");
 const { populateLeaderboards } = require("./orgHelpers");
 
-const url = "https://better-work.herokuapp.com";
+const url = "http://localhost:3000";
 
 async function getOrgUsers() {
   // e.preventDefault();
@@ -647,7 +647,11 @@ async function checkForHabits(e) {
       await fetch(`${url}/users/${username}/habits`, options)
     ).json();
 
-    helper(response, e);
+    if (!Object.keys(response).length) {
+      habitSelect.generateSelectorForm();
+    } else {
+      getUser(e);
+    }
   } catch (err) {
     console.warn(err);
   }

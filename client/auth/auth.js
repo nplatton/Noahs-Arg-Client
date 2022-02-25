@@ -1,5 +1,5 @@
 const jwt_decode = require("jwt-decode");
-const API_URL = "https://better-work.herokuapp.com";
+const API_URL = "http://localhost:3000";
 
 const { incorrectPassword } = require("./authHelpers.js");
 
