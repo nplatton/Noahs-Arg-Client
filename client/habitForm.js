@@ -104,6 +104,8 @@ function updateHabits_CallAPI(data) {
   for (const habit in data.tracked_habits) {
     jsonData1 += '"' + habit + '":';
 
+    const target_amount = data.tracked_habits[`${habit}`].target_amount;
+
     var monCount = document.getElementById(`${habit}-Monday`).checked ? 1 : 0;
     var tuesCount = document.getElementById(`${habit}-Tuesday`).checked ? 1 : 0;
     var wedCount = document.getElementById(`${habit}-Wednesday`).checked
@@ -113,7 +115,12 @@ function updateHabits_CallAPI(data) {
       ? 1
       : 0;
     var friCount = document.getElementById(`${habit}-Friday`).checked ? 1 : 0;
-    var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
+    var weeklyCount =
+      monCount * target_amount +
+      tuesCount * target_amount +
+      wedCount * target_amount +
+      thursCount * target_amount +
+      friCount * target_amount;
 
     var jsonHabit = {
       target_amount: data.tracked_habits[`${habit}`].target_amount,
