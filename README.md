@@ -6,10 +6,10 @@
 
 ![Screenshot](client/imgs/screenshot.png)
 
-View your organisations leaderboards to see your position and **stick it** to your peers that are below you! <br/>
+View your organisation leaderboards to see your position and **stick it** to your peers that are below you! <br/>
 Funnily enough, if you stick **it** infront of the website title you get our groups slogan for the duration of this project!
 
-Come get involved in Better Work!
+**Come get involved in Better Work!**
 
 ## Table of Contents
 
