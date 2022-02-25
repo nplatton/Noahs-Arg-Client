@@ -73,62 +73,67 @@ function generateHabits(data) {
 
     habitsDiv.appendChild(habitDiv);
   }
-
+  
   return habitsDiv;
+}
+
+function updateHabits_CallAPI(data){
+
+      const username = localStorage.getItem("username");
+
+      var jsonData1 = "{";
+
+      for (const habit in data.tracked_habits) {
+        jsonData1 += '"' + habit + '":';
+
+        var monCount = document.getElementById(`${habit}-Monday`).checked ? 1 : 0;
+        var tuesCount = document.getElementById(`${habit}-Tuesday`).checked
+          ? 1
+          : 0;
+        var wedCount = document.getElementById(`${habit}-Wednesday`).checked
+          ? 1
+          : 0;
+        var thursCount = document.getElementById(`${habit}-Thursday`).checked
+          ? 1
+          : 0;
+        var friCount = document.getElementById(`${habit}-Friday`).checked ? 1 : 0;
+        var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
+
+        var jsonHabit = {
+          target_amount: data.tracked_habits[`${habit}`].target_amount,
+          mon: monCount,
+          tues: tuesCount,
+          wed: wedCount,
+          thurs: thursCount,
+          fri: friCount,
+          weekly_count: weeklyCount,
+        };
+
+        jsonData1 += JSON.stringify(jsonHabit) + ",";
+      }
+
+      var jsonData = jsonData1.slice(0, -1);
+
+      jsonData += "}";
+
+      const options = {
+        method: "PATCH",
+        headers: new Headers({
+          authorization: localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        }),
+        body: jsonData,
+      };
+
+      const updateUrl = `${url}/users/${username}/habits`;
+      fetch(updateUrl, options).catch((error) => console.log(error));
 }
 
 function updateHabits(data) {
   const updateButton = document.getElementById("create_btn");
   updateButton.addEventListener("click", (e) => {
     e.preventDefault();
-
-    const username = localStorage.getItem("username");
-
-    var jsonData1 = "{";
-
-    for (const habit in data.tracked_habits) {
-      jsonData1 += '"' + habit + '":';
-
-      var monCount = document.getElementById(`${habit}-Monday`).checked ? 1 : 0;
-      var tuesCount = document.getElementById(`${habit}-Tuesday`).checked
-        ? 1
-        : 0;
-      var wedCount = document.getElementById(`${habit}-Wednesday`).checked
-        ? 1
-        : 0;
-      var thursCount = document.getElementById(`${habit}-Thursday`).checked
-        ? 1
-        : 0;
-      var friCount = document.getElementById(`${habit}-Friday`).checked ? 1 : 0;
-      var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
-
-      var jsonHabit = {
-        target_amount: data.tracked_habits[`${habit}`].target_amount,
-        mon: monCount,
-        tues: tuesCount,
-        wed: wedCount,
-        thurs: thursCount,
-        fri: friCount,
-        weekly_count: weeklyCount,
-      };
-
-      jsonData1 += JSON.stringify(jsonHabit) + ",";
-    }
-
-    var jsonData = jsonData1.slice(0, -1);
-
-    jsonData += "}";
-
-    const options = {
-      method: "PATCH",
-      headers: new Headers({
-        authorization: localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      }),
-      body: jsonData,
-    };
-    const updateUrl = `${url}/users/${username}/habits`;
-    fetch(updateUrl, options).catch((error) => console.log(error));
+    updateHabits_CallAPI(data);
   });
 }
 
@@ -161,4 +166,5 @@ module.exports = {
   generateHabits,
   generateHabitForm,
   updateHabits,
+  updateHabits_CallAPI
 };
