@@ -27,6 +27,7 @@ function generateSelector() {
   habits.forEach((habit) => {
     const habitLabel = document.createElement("label");
     habitLabel.innerText = habit;
+    habitLabel.id = habit + "-box-label";
     const habitCheck = document.createElement("input");
     habitCheck.type = "checkbox";
     habitCheck.checked = true;
