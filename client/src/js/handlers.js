@@ -108,34 +108,35 @@ async function updateHabitSelection(e) {
   }
 }
 
-async function incrementHabit(e) {
-  e.preventDefault();
-  try {
-    const username = localStorage.getItem("username");
-    const habitId = e.target.id;
-    const habit = habitId.split("-")[0];
-    const day = habitId.split("-")[1];
+// async function incrementHabit(e) {
+//   e.preventDefault();
+//   try {
+//     console.log(2);
+//     const username = localStorage.getItem("username");
+//     const habitId = e.target.id;
+//     const habit = habitId.split("-")[0];
+//     const day = habitId.split("-")[1];
 
-    const data = {
-      dayOfWeek: day,
-    };
+//     const data = {
+//       dayOfWeek: day,
+//     };
 
-    const options = {
-      method: "PATCH",
-      headers: new Headers({
-        authorization: localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify(data),
-    };
+//     const options = {
+//       method: "PATCH",
+//       headers: new Headers({
+//         authorization: localStorage.getItem("token"),
+//         "Content-Type": "application/json",
+//       }),
+//       body: JSON.stringify(data),
+//     };
 
-    await (
-      await fetch(`${url}/users/${username}/habits/${habit}`, options)
-    ).json();
-  } catch (err) {
-    console.warn(err);
-  }
-}
+//     await (
+//       await fetch(`${url}/users/${username}/habits/${habit}`, options)
+//     ).json();
+//   } catch (err) {
+//     console.warn(err);
+//   }
+// }
 
 async function checkForHabits(e) {
   try {
@@ -152,13 +153,17 @@ async function checkForHabits(e) {
       await fetch(`${url}/users/${username}/habits`, options)
     ).json();
 
-    if (!Object.keys(response).length) {
-      habitSelect.generateSelectorForm();
-    } else {
-      getUser(e);
-    }
+    helper(response, e);
   } catch (err) {
     console.warn(err);
+  }
+}
+
+function helper(response, e) {
+  if (!Object.keys(response).length) {
+    habitSelect.generateSelectorForm();
+  } else {
+    getUser(e);
   }
 }
 
@@ -166,6 +171,7 @@ module.exports = {
   getOrgUsers,
   getUser,
   updateHabitSelection,
-  incrementHabit,
+  // incrementHabit,
   checkForHabits,
+  helper,
 };

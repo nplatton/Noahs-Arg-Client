@@ -29,16 +29,24 @@ if (window.location.pathname == "/index.html") {
 } else if (window.location.pathname == "/org.html") {
   handlers.getOrgUsers();
 } else if (window.location.pathname == "/personal.html") {
-  // Add event listener for checkbox clicks on personal.html
+  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
+
   setTimeout(() => {
-    const boxes = document.querySelectorAll(".habit-day-box");
-    boxes.forEach((box) => {
-      box.addEventListener("click", (e) => {
-        e.preventDefault();
-        handlers.incrementHabit(e);
-      });
-    });
-  }, 500);
+    const selectForm = document.querySelector("#select-form");
+    selectForm &&
+      selectForm.addEventListener("submit", handlers.updateHabitSelection);
+  }, 1000);
+  // Add event listener for checkbox clicks on personal.html
+  // setTimeout(() => {
+  //   const boxes = document.querySelectorAll(".habit-day-box");
+  //   boxes.forEach((box) => {
+  //     box &&
+  //       box.addEventListener("click", (e) => {
+  //         e.preventDefault();
+  //         handlers.incrementHabit(e);
+  //       });
+  //   });
+  // }, 500);
 }
 
 // ---------------- ORG PAGE -----------------------
@@ -73,14 +81,4 @@ function slider(x0, x1) {
   } else if (i == 1 && x1 > x0) {
     document.documentElement.style.setProperty("--i", 0);
   }
-}
-
-if (window.location.pathname == "/personal.html") {
-  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
-
-  setTimeout(() => {
-    const selectForm = document.querySelector("#select-form");
-    selectForm &&
-      selectForm.addEventListener("submit", handlers.updateHabitSelection);
-  }, 1000);
 }

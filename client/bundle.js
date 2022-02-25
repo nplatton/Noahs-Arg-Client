@@ -117,8 +117,6 @@ module.exports = {
 },{}],3:[function(require,module,exports){
 // Questions, how do I get the forms to run?
 
-// require handlers
-
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 const url = "http://localhost:3000";
 
@@ -177,6 +175,7 @@ function generateHabits(data) {
 
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
+      dayCheck.classList.add("habit-day-box");
       dayCheck.id = habit + "-" + day;
       if (
         data.tracked_habits[`${habit}`][
@@ -245,7 +244,6 @@ function updateHabits(data) {
       }),
       body: jsonData,
     };
-
     const updateUrl = `${url}/users/${username}/habits`;
     fetch(updateUrl, options).catch((error) => console.log(error));
   });
@@ -259,6 +257,7 @@ function generateHabitForm(data) {
   const habitData = generateHabits(data);
   let wrapper = document.querySelector(".wrapper");
   const form = document.createElement("form");
+  form.id = "weekly-habit-form";
   // add class list for styling
 
   const submit = document.createElement("input");
@@ -313,16 +312,24 @@ if (window.location.pathname == "/index.html") {
 } else if (window.location.pathname == "/org.html") {
   handlers.getOrgUsers();
 } else if (window.location.pathname == "/personal.html") {
-  // Add event listener for checkbox clicks on personal.html
+  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
+
   setTimeout(() => {
-    const boxes = document.querySelectorAll(".habit-day-box");
-    boxes.forEach((box) => {
-      box.addEventListener("click", (e) => {
-        e.preventDefault();
-        handlers.incrementHabit(e);
-      });
-    });
-  }, 500);
+    const selectForm = document.querySelector("#select-form");
+    selectForm &&
+      selectForm.addEventListener("submit", handlers.updateHabitSelection);
+  }, 1000);
+  // Add event listener for checkbox clicks on personal.html
+  // setTimeout(() => {
+  //   const boxes = document.querySelectorAll(".habit-day-box");
+  //   boxes.forEach((box) => {
+  //     box &&
+  //       box.addEventListener("click", (e) => {
+  //         e.preventDefault();
+  //         handlers.incrementHabit(e);
+  //       });
+  //   });
+  // }, 500);
 }
 
 // ---------------- ORG PAGE -----------------------
@@ -359,16 +366,6 @@ function slider(x0, x1) {
   }
 }
 
-if (window.location.pathname == "/personal.html") {
-  window.addEventListener("DOMContentLoaded", handlers.checkForHabits);
-
-  setTimeout(() => {
-    const selectForm = document.querySelector("#select-form");
-    selectForm &&
-      selectForm.addEventListener("submit", handlers.updateHabitSelection);
-  }, 1000);
-}
-
 },{"./auth/auth":1,"./habitForm":3,"./src/js/handlers":7,"./src/js/templates/loginForm":9,"./src/js/templates/welcome":10}],5:[function(require,module,exports){
 "use strict";function e(e){this.message=e}e.prototype=new Error,e.prototype.name="InvalidCharacterError";var r="undefined"!=typeof window&&window.atob&&window.atob.bind(window)||function(r){var t=String(r).replace(/=+$/,"");if(t.length%4==1)throw new e("'atob' failed: The string to be decoded is not correctly encoded.");for(var n,o,a=0,i=0,c="";o=t.charAt(i++);~o&&(n=a%4?64*n+o:o,a++%4)?c+=String.fromCharCode(255&n>>(-2*a&6)):0)o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=".indexOf(o);return c};function t(e){var t=e.replace(/-/g,"+").replace(/_/g,"/");switch(t.length%4){case 0:break;case 2:t+="==";break;case 3:t+="=";break;default:throw"Illegal base64url string!"}try{return function(e){return decodeURIComponent(r(e).replace(/(.)/g,(function(e,r){var t=r.charCodeAt(0).toString(16).toUpperCase();return t.length<2&&(t="0"+t),"%"+t})))}(t)}catch(e){return r(t)}}function n(e){this.message=e}function o(e,r){if("string"!=typeof e)throw new n("Invalid token specified");var o=!0===(r=r||{}).header?0:1;try{return JSON.parse(t(e.split(".")[o]))}catch(e){throw new n("Invalid token specified: "+e.message)}}n.prototype=new Error,n.prototype.name="InvalidTokenError";const a=o;a.default=o,a.InvalidTokenError=n,module.exports=a;
 
@@ -391,11 +388,19 @@ const generateSelectTitle = () => {
 function generateSelector() {
   const habitDiv = document.createElement("div");
   habitDiv.classList.add("habitS_form", "label_habit");
-  const habits = ["water", "break", "stretch"];
+  const habits = [
+    "water",
+    "break",
+    "stretch",
+    "eat_fruit",
+    "fresh_air",
+    "socialise",
+  ];
 
   habits.forEach((habit) => {
     const habitLabel = document.createElement("label");
     habitLabel.innerText = habit;
+    habitLabel.id = habit + "-box-label";
     const habitCheck = document.createElement("input");
     habitCheck.type = "checkbox";
     habitCheck.checked = true;
@@ -565,34 +570,35 @@ async function updateHabitSelection(e) {
   }
 }
 
-async function incrementHabit(e) {
-  e.preventDefault();
-  try {
-    const username = localStorage.getItem("username");
-    const habitId = e.target.id;
-    const habit = habitId.split("-")[0];
-    const day = habitId.split("-")[1];
+// async function incrementHabit(e) {
+//   e.preventDefault();
+//   try {
+//     console.log(2);
+//     const username = localStorage.getItem("username");
+//     const habitId = e.target.id;
+//     const habit = habitId.split("-")[0];
+//     const day = habitId.split("-")[1];
 
-    const data = {
-      dayOfWeek: day,
-    };
+//     const data = {
+//       dayOfWeek: day,
+//     };
 
-    const options = {
-      method: "PATCH",
-      headers: new Headers({
-        authorization: localStorage.getItem("token"),
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify(data),
-    };
+//     const options = {
+//       method: "PATCH",
+//       headers: new Headers({
+//         authorization: localStorage.getItem("token"),
+//         "Content-Type": "application/json",
+//       }),
+//       body: JSON.stringify(data),
+//     };
 
-    await (
-      await fetch(`${url}/users/${username}/habits/${habit}`, options)
-    ).json();
-  } catch (err) {
-    console.warn(err);
-  }
-}
+//     await (
+//       await fetch(`${url}/users/${username}/habits/${habit}`, options)
+//     ).json();
+//   } catch (err) {
+//     console.warn(err);
+//   }
+// }
 
 async function checkForHabits(e) {
   try {
@@ -609,13 +615,17 @@ async function checkForHabits(e) {
       await fetch(`${url}/users/${username}/habits`, options)
     ).json();
 
-    if (!Object.keys(response).length) {
-      habitSelect.generateSelectorForm();
-    } else {
-      getUser(e);
-    }
+    helper(response, e);
   } catch (err) {
     console.warn(err);
+  }
+}
+
+function helper(response, e) {
+  if (!Object.keys(response).length) {
+    habitSelect.generateSelectorForm();
+  } else {
+    getUser(e);
   }
 }
 
@@ -623,8 +633,9 @@ module.exports = {
   getOrgUsers,
   getUser,
   updateHabitSelection,
-  incrementHabit,
+  // incrementHabit,
   checkForHabits,
+  helper,
 };
 
 },{"../../habitForm":3,"../../selectHabits":6,"./orgHelpers":8}],8:[function(require,module,exports){
@@ -729,6 +740,11 @@ function reorder(arr) {
 
 module.exports = {
   populateLeaderboards,
+  reorder,
+  computePoints,
+  rankUsers,
+  getRank,
+  addUser,
 };
 
 },{}],9:[function(require,module,exports){

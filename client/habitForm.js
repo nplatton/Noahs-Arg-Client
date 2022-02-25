@@ -1,7 +1,5 @@
 // Questions, how do I get the forms to run?
 
-// require handlers
-
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 const url = "http://localhost:3000";
 
@@ -60,6 +58,7 @@ function generateHabits(data) {
 
       const dayCheck = document.createElement("input");
       dayCheck.type = "checkbox";
+      dayCheck.classList.add("habit-day-box");
       dayCheck.id = habit + "-" + day;
       if (
         data.tracked_habits[`${habit}`][
@@ -135,7 +134,6 @@ function updateHabits(data) {
   updateButton.addEventListener("click", (e) => {
     e.preventDefault();
     updateHabits_CallAPI(data);
-
   });
 }
 
@@ -147,6 +145,7 @@ function generateHabitForm(data) {
   const habitData = generateHabits(data);
   let wrapper = document.querySelector(".wrapper");
   const form = document.createElement("form");
+  form.id = "weekly-habit-form";
   // add class list for styling
 
   const submit = document.createElement("input");
