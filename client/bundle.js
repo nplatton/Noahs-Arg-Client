@@ -125,11 +125,11 @@ const url = "http://localhost:3000";
 // Generate Habit Form Title for Already made habits- Welcomes User
 const generateTitle = (data) => {
   const formDiv = document.createElement("div");
-  // formDiv.classList.add("habit_form", "title_habit");
+  formDiv.classList.add("title_got");
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Welcome"; // Check
+  titleLabel.innerText = "Welcome to Your Personal Habit Tracker Page"; // Check
   formDiv.appendChild(titleLabel);
 
   return formDiv;
@@ -139,16 +139,49 @@ const generateTitle = (data) => {
 
 function generateHabits(data) {
   const habitsDiv = document.createElement("div");
-  // habitsDiv.classList.add("habit_form", "title_habit");
+  const dataHabits = [
+    "drink_water",
+    "break_from_screen",
+    "stretch",
+    "eat_fruit",
+    "fresh_air",
+    "socialise",
+  ];
+  const habitNames = [
+    "Drink One Glass of Water",
+    "Take A Screen Break",
+    "5 Minute Stretch",
+    "Eat One Piece of Fruit",
+    "Go for a 10 Minute Walk",
+    "Socialise for Five Minutes",
+  ];
 
   for (const habit in data.tracked_habits) {
     const habitDiv = document.createElement("div");
     habitDiv.id = habit;
     const habitLabel = document.createElement("label");
     habitLabel.for = habit;
-    habitLabel.innerText = habit;
+    habitLabel.innerText = habitNames[dataHabits.indexOf(habit)];
 
     habitDiv.appendChild(habitLabel);
+
+    // const weekDaysss = document.createElement("ul")
+
+    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
+    const weekdayIds = ["mon", "tues", "wed", "thurs", "fri"];
+
+    weekdays.forEach((day) => {
+      const dayLabel = document.createElement("label");
+      dayLabel.innerText = day;
+
+      const dayCheck = document.createElement("input");
+      dayCheck.type = "checkbox";
+      dayCheck.classList.add("habit-day-box");
+      dayCheck.id = habit + "-" + day;
+
+      habitDiv.appendChild(dayCheck);
+      habitDiv.appendChild(dayLabel);
+    });
 
     const habitGoal = document.createElement("label");
     habitGoal.innerText =
@@ -164,30 +197,8 @@ function generateHabits(data) {
     highestStreak.innerText =
       "Highest Streak: " + data.streaks[`${habit}`].highest;
     habitDiv.appendChild(highestStreak);
-    // const weekDaysss = document.createElement("ul")
 
-    const weekdays = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"];
-    const weekdayIds = ["mon", "tues", "wed", "thurs", "fri"];
-
-    weekdays.forEach((day) => {
-      const dayLabel = document.createElement("label");
-      dayLabel.innerText = day;
-
-      const dayCheck = document.createElement("input");
-      dayCheck.type = "checkbox";
-      dayCheck.classList.add("habit-day-box");
-      dayCheck.id = habit + "-" + day;
-      if (
-        data.tracked_habits[`${habit}`][
-          `${weekdayIds[weekdays.indexOf(day)]}`
-        ] == 1
-      ) {
-        dayCheck.checked = true;
-      }
-      habitDiv.appendChild(dayLabel);
-      habitDiv.appendChild(dayCheck);
-    });
-
+    habitDiv.classList.add("habit_got");
     habitsDiv.appendChild(habitDiv);
   }
 
@@ -256,9 +267,7 @@ function updateHabits(data) {
 function generateHabitForm(data) {
   const habitData = generateHabits(data);
   let wrapper = document.querySelector(".wrapper");
-  const form = document.createElement("form");
-  form.id = "weekly-habit-form";
-  // add class list for styling
+
 
   const submit = document.createElement("input");
   submit.type = "submit";
@@ -266,11 +275,12 @@ function generateHabitForm(data) {
   submit.id = "create_btn";
   // add class list for styling
 
-  form.appendChild(generateTitle());
-  form.appendChild(habitData);
-  form.appendChild(submit);
+  formEle.appendChild(generateTitle());
+  formEle.appendChild(habitData);
+  formEle.appendChild(submit);
+  submit.classList.add("got_submit");
 
-  wrapper.prepend(form);
+  wrapper.prepend(formEle);
 }
 
 module.exports = {
@@ -379,7 +389,7 @@ const generateSelectTitle = () => {
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Please Choose Your Habits";
+  titleLabel.innerText = "Please Choose Your Weekly Habit Goals!";
   habitSDiv.appendChild(titleLabel);
 
   return habitSDiv;
@@ -389,13 +399,7 @@ function generateSelector() {
   const habitDiv = document.createElement("div");
   habitDiv.classList.add("habitS_form", "label_habit");
   const habits = [
-    "water",
-    "break",
-    "stretch",
-    "eat_fruit",
-    "fresh_air",
-    "socialise",
-  ];
+
 
   habits.forEach((habit) => {
     const habitLabel = document.createElement("label");
