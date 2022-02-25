@@ -118,7 +118,7 @@ module.exports = {
 // Questions, how do I get the forms to run?
 
 // Write function for Identifying Habits, If habits, show habits. If not show form.
-const url = "http://localhost:3000";
+const url = "https://better-work.herokuapp.com";
 
 // Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 

@@ -2,7 +2,7 @@ const habitForm = require("../../habitForm");
 const habitSelect = require("../../selectHabits");
 const { populateLeaderboards } = require("./orgHelpers");
 
-const url = "http://localhost:3000";
+const url = "https://better-work.herokuapp.com";
 
 async function getOrgUsers() {
   // e.preventDefault();
