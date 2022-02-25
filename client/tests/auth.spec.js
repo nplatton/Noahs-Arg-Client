@@ -1,67 +1,55 @@
-global.fetch = require('jest-fetch-mock');
+global.fetch = require("jest-fetch-mock");
 
+describe("auth tests", () => {
+  let app;
 
-describe('auth tests', () => {
+  beforeEach(() => {
+    app = require("../auth/auth");
+  });
 
-    let app;
+  afterEach(() => {
+    fetch.resetMocks();
+  });
 
-    beforeEach(() => {
+  describe("request login", () => {
+    test("it makes a post request to /auth/login", () => {
+      const fakeSubmitEvent = {
+        preventDefault: jest.fn(),
+        target: {
+          username: { value: "vincent" },
+          psw: { value: "vincent" },
+        },
+      };
 
-        app = require('../auth/auth')
-    })
+      app.requestLogin(fakeSubmitEvent);
 
-    afterEach(() => {
-        fetch.resetMocks();
-    })
+      console.log(fetch.mock.calls);
+      expect(fetch.mock.calls[0][0]).toString(
+        "https://better-work.herokuapp.com/auth/login"
+      );
+      expect(fetch.mock.calls[0][1]).toHaveProperty("method", "POST");
+    });
+  });
 
-    describe('request login', () => {
-   
-            test('it makes a post request to /auth/login', () => {
-                const fakeSubmitEvent = {
-                    preventDefault: jest.fn(),
-                    target: {                     
-                            username: { value: 'vincent' },
-                            psw: { value: 'vincent' }          
-                    }
-                }
-   
-                app.requestLogin(fakeSubmitEvent);
-                
-                console.log(fetch.mock.calls);
-                expect(fetch.mock.calls[0][0]).toString("http://localhost:3000/auth/login");
-                expect(fetch.mock.calls[0][1]).toHaveProperty('method', 'POST');
-                
-            })
-    
-    })
+  describe("requestRegistration", () => {
+    test("it makes a post request to /auth/register", () => {
+      const fakeSubmitEvent = {
+        preventDefault: jest.fn(),
+        target: {
+          username: { value: "vincent" },
+          psw: { value: "vincent" },
+          org: { value: "Noahs_Arg" },
+        },
+      };
 
+      app.requestRegistration(fakeSubmitEvent);
 
-        describe('requestRegistration', () => {
-       
-            test('it makes a post request to /auth/register', () => {
-
-                const fakeSubmitEvent = {
-                    preventDefault: jest.fn(),
-                    target: {                     
-                            username: { value: 'vincent' },
-                            psw: { value: 'vincent' },
-                            org: { value: 'Noahs_Arg' },
-                    
-            }
-        }
-        
-        app.requestRegistration(fakeSubmitEvent)
-        
-        expect(fetch.mock.calls[0][0]).toString("http://localhost:3000/auth/register");
-        expect(fetch.mock.calls[0][1]).toHaveProperty('method', 'POST')
-        expect(fetch.mock.calls[0].length).toBe(2)
-        expect(fetch).toHaveBeenCalledTimes(1)
-
-              
-        });
-    })
-        
-
-
-
-})
+      expect(fetch.mock.calls[0][0]).toString(
+        "https://better-work.herokuapp.com/auth/register"
+      );
+      expect(fetch.mock.calls[0][1]).toHaveProperty("method", "POST");
+      expect(fetch.mock.calls[0].length).toBe(2);
+      expect(fetch).toHaveBeenCalledTimes(1);
+    });
+  });
+});

@@ -11,7 +11,7 @@ jest.mock("../selectHabits");
 
 global.fetch = require("jest-fetch-mock");
 
-const url = "http://localhost:3000";
+const url = "https://better-work.herokuapp.com";
 
 describe("handlers.js in org.html & index.html", () => {
   let api;

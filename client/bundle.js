@@ -1,6 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const jwt_decode = require("jwt-decode");
-const API_URL = "http://localhost:3000";
+const API_URL = "https://better-work.herokuapp.com";
 
 const { incorrectPassword } = require("./authHelpers.js");
 
@@ -118,7 +118,7 @@ module.exports = {
 // Questions, how do I get the forms to run?
 
 // Write function for Identifying Habits, If habits, show habits. If not show form.
-const url = "http://localhost:3000";
+const url = "https://better-work.herokuapp.com";
 
 // Create Habits form, must include 3 Habits, checkboxes, current score, goal.
 
@@ -178,7 +178,7 @@ function generateHabits(data) {
       dayCheck.type = "checkbox";
       dayCheck.classList.add("habit-day-box");
       dayCheck.id = habit + "-" + day;
-      
+
       if (
         data.tracked_habits[`${habit}`][
           `${weekdayIds[weekdays.indexOf(day)]}`
@@ -209,60 +209,57 @@ function generateHabits(data) {
     habitDiv.classList.add("habit_got");
     habitsDiv.appendChild(habitDiv);
   }
-  
+
   return habitsDiv;
 }
 
-function updateHabits_CallAPI(data){
+function updateHabits_CallAPI(data) {
+  const username = localStorage.getItem("username");
 
-      const username = localStorage.getItem("username");
+  var jsonData1 = "{";
 
-      var jsonData1 = "{";
+  for (const habit in data.tracked_habits) {
+    jsonData1 += '"' + habit + '":';
 
-      for (const habit in data.tracked_habits) {
-        jsonData1 += '"' + habit + '":';
+    var monCount = document.getElementById(`${habit}-Monday`).checked ? 1 : 0;
+    var tuesCount = document.getElementById(`${habit}-Tuesday`).checked ? 1 : 0;
+    var wedCount = document.getElementById(`${habit}-Wednesday`).checked
+      ? 1
+      : 0;
+    var thursCount = document.getElementById(`${habit}-Thursday`).checked
+      ? 1
+      : 0;
+    var friCount = document.getElementById(`${habit}-Friday`).checked ? 1 : 0;
+    var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
 
-        var monCount = document.getElementById(`${habit}-Monday`).checked ? 1 : 0;
-        var tuesCount = document.getElementById(`${habit}-Tuesday`).checked
-          ? 1
-          : 0;
-        var wedCount = document.getElementById(`${habit}-Wednesday`).checked
-          ? 1
-          : 0;
-        var thursCount = document.getElementById(`${habit}-Thursday`).checked
-          ? 1
-          : 0;
-        var friCount = document.getElementById(`${habit}-Friday`).checked ? 1 : 0;
-        var weeklyCount = monCount + tuesCount + wedCount + thursCount + friCount;
+    var jsonHabit = {
+      target_amount: data.tracked_habits[`${habit}`].target_amount,
+      mon: monCount,
+      tues: tuesCount,
+      wed: wedCount,
+      thurs: thursCount,
+      fri: friCount,
+      weekly_count: weeklyCount,
+    };
 
-        var jsonHabit = {
-          target_amount: data.tracked_habits[`${habit}`].target_amount,
-          mon: monCount,
-          tues: tuesCount,
-          wed: wedCount,
-          thurs: thursCount,
-          fri: friCount,
-          weekly_count: weeklyCount,
-        };
+    jsonData1 += JSON.stringify(jsonHabit) + ",";
+  }
 
-        jsonData1 += JSON.stringify(jsonHabit) + ",";
-      }
+  var jsonData = jsonData1.slice(0, -1);
 
-      var jsonData = jsonData1.slice(0, -1);
+  jsonData += "}";
 
-      jsonData += "}";
+  const options = {
+    method: "PATCH",
+    headers: new Headers({
+      authorization: localStorage.getItem("token"),
+      "Content-Type": "application/json",
+    }),
+    body: jsonData,
+  };
 
-      const options = {
-        method: "PATCH",
-        headers: new Headers({
-          authorization: localStorage.getItem("token"),
-          "Content-Type": "application/json",
-        }),
-        body: jsonData,
-      };
-
-      const updateUrl = `${url}/users/${username}/habits`;
-      fetch(updateUrl, options).catch((error) => console.log(error));
+  const updateUrl = `${url}/users/${username}/habits`;
+  fetch(updateUrl, options).catch((error) => console.log(error));
 }
 
 function updateHabits(data) {
@@ -282,10 +279,9 @@ function generateHabitForm(data) {
   let wrapper = document.querySelector(".wrapper");
 
   const formEle = document.createElement("form");
-  formEle.classList.add("form_got");;
+  formEle.classList.add("form_got");
   formEle.id = "weekly-habit-form";
   // add class list for styling
-
 
   const submit = document.createElement("input");
   submit.type = "submit";
@@ -306,7 +302,7 @@ module.exports = {
   generateHabits,
   generateHabitForm,
   updateHabits,
-  updateHabits_CallAPI
+  updateHabits_CallAPI,
 };
 
 },{}],4:[function(require,module,exports){
@@ -493,7 +489,7 @@ const habitForm = require("../../habitForm");
 const habitSelect = require("../../selectHabits");
 const { populateLeaderboards } = require("./orgHelpers");
 
-const url = "http://localhost:3000";
+const url = "https://better-work.herokuapp.com";
 
 async function getOrgUsers() {
   // e.preventDefault();
