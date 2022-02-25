@@ -6,7 +6,7 @@ const generateSelectTitle = () => {
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Please Choose Your Habits";
+  titleLabel.innerText = "Please Choose Your Weekly Habit Goals!";
   habitSDiv.appendChild(titleLabel);
 
   return habitSDiv;
@@ -16,12 +16,12 @@ function generateSelector() {
   const habitDiv = document.createElement("div");
   habitDiv.classList.add("habitS_form", "label_habit");
   const habits = [
-    "water",
-    "break",
-    "stretch",
-    "eat_fruit",
-    "fresh_air",
-    "socialise",
+    "Drink One Glass of Water",
+    "Take A Screen Break",
+    "5 Minute Stretch",
+    "Eat One Piece of Fruit",
+    "Go for a 10 Minute Walk",
+    "Socialise for Five Minutes",
   ];
 
   habits.forEach((habit) => {
