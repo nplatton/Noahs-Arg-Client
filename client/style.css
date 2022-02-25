@@ -116,7 +116,7 @@ button {
   background-color: #04aa6d;
   color: white;
   padding: 14px 20px;
-  margin: 8px 0;
+  margin: 8px 70px;
   cursor: pointer;
   opacity: 0.9;
 }
@@ -192,7 +192,7 @@ h5 {
   background-color: white;
   max-width: fit-content;
   max-height: fit-content;
-  margin: 0 auto;
+  margin: 1%;
   margin-top: 100px;
   margin-bottom: 100px;
   padding: 2%;
@@ -254,6 +254,21 @@ h5 {
   display: flex;
   flex-direction: column;
 }
+
+.got_submit {
+  display: flex;
+  margin: auto;
+  border: 5px solid #ccc;
+  border-radius: 25px;
+  height: 50px;
+  padding: 10px 100px;
+  margin-top: 30px;
+  background-color: #2b7a78;
+  color: white;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
 input[type="checkbox"][id="waterHabit"] {
   display: none;
 }
@@ -266,7 +281,6 @@ label {
   padding: 10px;
   display: flex;
   position: relative;
-  width: 57%;
 }
 
 label::before {
@@ -347,7 +361,7 @@ label img {
   flex-direction: column;
   text-align: center;
   font-family: "Libre Baskerville", serif;
-  padding: 10px;
+  padding: 3px;
 }
 
 #leaderboard {

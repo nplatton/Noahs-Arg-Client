@@ -131,7 +131,7 @@ const generateTitle = (data) => {
 
   const titleLabel = document.createElement("label");
   titleLabel.for = "habit";
-  titleLabel.innerText = "Welcome"; // Check
+  titleLabel.innerText = "Welcome to Your Personal Habit Tracker Page"; // Check
   formDiv.appendChild(titleLabel);
 
   return formDiv;
@@ -280,6 +280,7 @@ function generateHabitForm(data) {
   formEle.appendChild(generateTitle());
   formEle.appendChild(habitData);
   formEle.appendChild(submit);
+  submit.classList.add("got_submit");
 
   wrapper.prepend(formEle);
 }
