@@ -107,7 +107,9 @@ describe("handlers.js in index.html", () => {
       expect(result.children).toHaveLength(1);
       const title = result.querySelector("label");
       expect(title).toBeTruthy();
-      expect(title.innerText).toBe("Welcome");
+      expect(title.innerText).toBe(
+        "Welcome to Your Personal Habit Tracker Page"
+      );
     });
   });
 
