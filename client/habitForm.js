@@ -1,7 +1,5 @@
 // Questions, how do I get the forms to run?
 
-// require handlers
-
 // Write function for Identifying Habits, If habits, show habits. If not show form.
 const url = "http://localhost:3000";
 
@@ -129,7 +127,6 @@ function updateHabits(data) {
       }),
       body: jsonData,
     };
-
     const updateUrl = `${url}/users/${username}/habits`;
     fetch(updateUrl, options).catch((error) => console.log(error));
   });

@@ -142,9 +142,9 @@ describe("handlers.js in personal.html", () => {
     });
   });
 
-  describe("incrementHabit", () => {
-    test("", () => {});
-  });
+  // describe("updateFct", () => {
+  //   test("", () => {});
+  // });
 
   describe("checkForHabits", () => {
     test("it sends GET request to /users/:username/habits", () => {
