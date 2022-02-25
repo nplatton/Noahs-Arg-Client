@@ -153,17 +153,13 @@ async function checkForHabits(e) {
       await fetch(`${url}/users/${username}/habits`, options)
     ).json();
 
-    helper(response, e);
+    if (!Object.keys(response).length) {
+      habitSelect.generateSelectorForm();
+    } else {
+      getUser(e);
+    }
   } catch (err) {
     console.warn(err);
-  }
-}
-
-function helper(response, e) {
-  if (!Object.keys(response).length) {
-    habitSelect.generateSelectorForm();
-  } else {
-    getUser(e);
   }
 }
 
